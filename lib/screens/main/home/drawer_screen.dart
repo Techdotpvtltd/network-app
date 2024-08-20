@@ -8,6 +8,8 @@
 import 'package:concierge_networking/components/circle_button.dart';
 import 'package:concierge_networking/components/custom_button.dart';
 import 'package:concierge_networking/components/custom_container.dart';
+import 'package:concierge_networking/screens/main/booking/booking_screen.dart';
+import 'package:concierge_networking/screens/main/chat/chat_screen.dart';
 import 'package:concierge_networking/screens/main/home/bottom_bar_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -37,7 +39,7 @@ final List<NaviItemModel> items = [
   NaviItemModel(
     title: "Chat",
     icon: AppAssets.chatIcon,
-    child: const SizedBox(),
+    child: const ChatScreen(),
   ),
   NaviItemModel(
     title: "Subscription",
@@ -47,7 +49,7 @@ final List<NaviItemModel> items = [
   NaviItemModel(
     title: "Bookings",
     icon: AppAssets.bookingIcon,
-    child: const SizedBox(),
+    child: const BookingScreen(),
   ),
   NaviItemModel(
     title: "Change password",

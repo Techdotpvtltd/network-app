@@ -14,8 +14,10 @@ import 'package:flutter/material.dart';
 import '../../../utils/constants/constants.dart';
 
 class BookingScreen extends StatefulWidget {
-  const BookingScreen({super.key, this.scrollController});
+  const BookingScreen(
+      {super.key, this.scrollController, this.isShowBackButton = true});
   final ScrollController? scrollController;
+  final bool isShowBackButton;
   @override
   State<BookingScreen> createState() => _BookingScreenState();
 }
@@ -29,7 +31,7 @@ class _BookingScreenState extends State<BookingScreen> {
     return Scaffold(
       appBar: customAppBar(
         title: "Bookings",
-        showBack: false,
+        showBack: widget.isShowBackButton,
       ),
       body: Padding(
         padding: const EdgeInsets.only(

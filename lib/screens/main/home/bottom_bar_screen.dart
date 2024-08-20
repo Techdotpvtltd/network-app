@@ -110,7 +110,8 @@ class _BottomBarScreenState extends State<BottomBarScreen>
         }
 
         if (selectedIndex == 1) {
-          return BookingScreen(scrollController: scrollController);
+          return BookingScreen(
+              scrollController: scrollController, isShowBackButton: false);
         }
 
         if (selectedIndex == 2) {
