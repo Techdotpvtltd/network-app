@@ -21,8 +21,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key, this.scrollController});
+  const ProfileScreen(
+      {super.key, this.scrollController, this.isShowBackButton = true});
   final ScrollController? scrollController;
+  final bool isShowBackButton;
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
@@ -32,7 +34,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return CustomScaffold(
       backgroundImagePath: AppAssets.scaffoldBG2,
-      appBar: customAppBar(title: "Profile", showBack: false),
+      appBar: customAppBar(title: "Profile", showBack: widget.isShowBackButton),
       body: SizedBox(
         width: SCREEN_WIDTH,
         height: SCREEN_HEIGHT,

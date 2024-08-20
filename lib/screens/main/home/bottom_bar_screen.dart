@@ -123,7 +123,8 @@ class _BottomBarScreenState extends State<BottomBarScreen>
         }
 
         if (selectedIndex == 3) {
-          return ProfileScreen(scrollController: scrollController);
+          return ProfileScreen(
+              scrollController: scrollController, isShowBackButton: false);
         }
         return items[selectedIndex].child;
       },

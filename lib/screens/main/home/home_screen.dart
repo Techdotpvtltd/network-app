@@ -15,6 +15,7 @@ import 'package:concierge_networking/screens/main/components/content_widget.dart
 import 'package:concierge_networking/screens/main/components/gradient_image_widget.dart';
 import 'package:concierge_networking/screens/main/components/home_heading_widget.dart';
 import 'package:concierge_networking/screens/main/home/detail_screen.dart';
+import 'package:concierge_networking/screens/main/profile/profile_screen.dart';
 import 'package:concierge_networking/utils/constants/app_assets.dart';
 import 'package:concierge_networking/utils/constants/constants.dart';
 import 'package:concierge_networking/utils/extensions/navigation_service.dart';
@@ -46,7 +47,9 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: const EdgeInsets.only(left: 24),
           child: CustomInkWell(
             semanticLabel: "Profile button",
-            onTap: () {},
+            onTap: () {
+              NavigationService.go(const ProfileScreen());
+            },
             child: const AvatarWidget(
               width: 45,
               height: 45,
