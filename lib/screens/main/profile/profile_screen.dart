@@ -12,6 +12,7 @@ import 'package:concierge_networking/components/custom_ink_well.dart';
 import 'package:concierge_networking/components/custom_scaffold.dart';
 import 'package:concierge_networking/components/text_widget.dart';
 import 'package:concierge_networking/screens/main/booking/booking_screen.dart';
+import 'package:concierge_networking/screens/main/other/refer_friend_screen.dart';
 import 'package:concierge_networking/screens/main/other/subscription_screen.dart';
 import 'package:concierge_networking/screens/main/other/support_screen.dart';
 import 'package:concierge_networking/screens/main/profile/edit_profile.dart';
@@ -175,7 +176,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
               _ButtonWidget(
                 "Refer Friends",
                 iconPath: AppAssets.chainIcon,
-                onPressed: () {},
+                onPressed: () {
+                  NavigationService.go(const ReferFriendScreen());
+                },
               ),
             ],
           ),
