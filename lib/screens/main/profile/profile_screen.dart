@@ -12,6 +12,7 @@ import 'package:concierge_networking/components/custom_ink_well.dart';
 import 'package:concierge_networking/components/custom_scaffold.dart';
 import 'package:concierge_networking/components/text_widget.dart';
 import 'package:concierge_networking/screens/main/booking/booking_screen.dart';
+import 'package:concierge_networking/screens/main/profile/edit_profile.dart';
 import 'package:concierge_networking/screens/onboarding/forgot_screen.dart';
 import 'package:concierge_networking/utils/constants/app_assets.dart';
 import 'package:concierge_networking/utils/constants/constants.dart';
@@ -111,7 +112,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     gapH16,
                     CustomButton(
                       title: "Edit Profile",
-                      onPressed: () {},
+                      onPressed: () {
+                        NavigationService.go(const EditProfile());
+                      },
                       isSmallText: true,
                       height: 39,
                       backgroundColor: const Color(0xFF444444),
