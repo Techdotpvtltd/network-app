@@ -21,6 +21,10 @@ class AppAssets {
   static const String timeIcon = "${AppAssets._iconPath}/time-ic.svg";
   static const String homeIcon = "${AppAssets._iconPath}/home-ic.svg";
   static const String magnifierIcon = "${AppAssets._iconPath}/search-ic.svg";
+  static const String clipIcon = "${AppAssets._iconPath}/clip-ic.svg";
+  static const String sendIcon = "${AppAssets._iconPath}/send-ic.svg";
+  static const String threeDotsHorizontalIcon =
+      "${AppAssets._iconPath}/dot-menu-ic.svg";
 
   static const String splashBackgroundIcon =
       "${AppAssets._iconPath}/splash-icon.png";

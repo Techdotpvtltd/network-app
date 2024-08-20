@@ -6,6 +6,7 @@
 // Description:
 
 import 'package:concierge_networking/screens/main/booking/booking_screen.dart';
+import 'package:concierge_networking/screens/main/chat/chat_screen.dart';
 import 'package:concierge_networking/screens/main/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_floating_bottom_bar/flutter_floating_bottom_bar.dart';
@@ -110,6 +111,11 @@ class _BottomBarScreenState extends State<BottomBarScreen>
 
         if (selectedIndex == 1) {
           return BookingScreen(scrollController: scrollController);
+        }
+
+        if (selectedIndex == 2) {
+          return ChatScreen(
+              scrollController: scrollController, isShowBackButton: false);
         }
         return items[selectedIndex].child;
       },

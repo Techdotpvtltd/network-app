@@ -10,8 +10,10 @@ import 'package:concierge_networking/components/custom_app_bar.dart';
 import 'package:concierge_networking/components/custom_container.dart';
 import 'package:concierge_networking/components/custom_ink_well.dart';
 import 'package:concierge_networking/components/text_widget.dart';
+import 'package:concierge_networking/screens/main/chat/chat_screen.dart';
 import 'package:concierge_networking/utils/constants/app_assets.dart';
 import 'package:concierge_networking/utils/constants/constants.dart';
+import 'package:concierge_networking/utils/extensions/navigation_service.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -193,7 +195,9 @@ class _DetailScreenState extends State<DetailScreen> {
                               ),
                               CircleButton(
                                 iconPath: AppAssets.chatIcon,
-                                onPressed: () {},
+                                onPressed: () {
+                                  NavigationService.go(const ChatScreen());
+                                },
                                 colorFilter: const ColorFilter.mode(
                                   AppTheme.primaryColor1,
                                   BlendMode.srcIn,

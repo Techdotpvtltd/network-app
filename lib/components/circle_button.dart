@@ -23,7 +23,7 @@ class CircleButton extends StatelessWidget {
   final Color? backgroundColor;
   final ColorFilter? colorFilter;
   final Size? iconSize;
-  final Icon? icon;
+  final Widget? icon;
   final String? label;
   @override
   Widget build(BuildContext context) {

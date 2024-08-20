@@ -141,20 +141,20 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 const EdgeInsets.symmetric(horizontal: 17, vertical: 15),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.all(
-                Radius.circular((widget.maxLines > 1) ? 52 : 124),
+                Radius.circular((widget.maxLines > 1) ? 12 : 124),
               ),
               borderSide: const BorderSide(color: Colors.transparent, width: 0),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.all(
-                Radius.circular((widget.maxLines > 1) ? 52 : 124),
+                Radius.circular((widget.maxLines > 1) ? 12 : 124),
               ),
               borderSide:
                   const BorderSide(color: AppTheme.primaryColor1, width: 1),
             ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.all(
-                Radius.circular((widget.maxLines > 1) ? 52 : 124),
+                Radius.circular((widget.maxLines > 1) ? 12 : 124),
               ),
               borderSide: const BorderSide(color: Colors.red, width: 2),
             ),
@@ -222,6 +222,138 @@ class _CustomTextFieldState extends State<CustomTextField> {
                                 : AppTheme.placeholderColor,
                           )
                         : null),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+// ===========================Message Text Field================================
+
+class CustomMessageTextField extends StatefulWidget {
+  const CustomMessageTextField({
+    super.key,
+    this.titleText,
+    required this.hintText,
+    this.controller,
+    this.suffixWidget,
+    this.prefixWidget,
+    this.maxLines = 1,
+    this.minLines,
+    this.onSubmitted,
+    this.onChange,
+    this.focusNode,
+    this.textInputAction,
+    this.prefixIcon,
+  });
+  final String? titleText;
+  final String hintText;
+  final TextEditingController? controller;
+  final Widget? suffixWidget;
+  final Widget? prefixWidget;
+  final int maxLines;
+  final int? minLines;
+  final FocusNode? focusNode;
+  final Function(String)? onSubmitted;
+  final Function(String)? onChange;
+  final TextInputAction? textInputAction;
+  final String? prefixIcon;
+  @override
+  State<CustomMessageTextField> createState() => _CustomMessageTextFieldState();
+}
+
+class _CustomMessageTextFieldState extends State<CustomMessageTextField> {
+  bool isFocused = false;
+  late final FocusNode textFieldFocus;
+
+  @override
+  void initState() {
+    super.initState();
+    textFieldFocus = widget.focusNode ?? FocusNode();
+    textFieldFocus.addListener(() {
+      setState(() {
+        isFocused = textFieldFocus.hasFocus;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    textFieldFocus.removeListener(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Visibility(
+          visible: widget.titleText != null,
+          child: PrimaryTitleText(
+            widget.titleText ?? "",
+            color:
+                isFocused ? const Color(0xFF1E1E1E) : const Color(0xFFA3A3A3),
+          ),
+        ),
+        if (widget.titleText != null) gapH10,
+        TextField(
+          canRequestFocus: true,
+          focusNode: textFieldFocus,
+          controller: widget.controller,
+          textInputAction: widget.textInputAction,
+          onSubmitted: (value) {
+            if (widget.onSubmitted != null) {
+              widget.onSubmitted!(value);
+            }
+          },
+          onChanged: (value) {
+            if (widget.onChange != null) {
+              widget.onChange!(value);
+            }
+          },
+          maxLines: widget.maxLines,
+          minLines: widget.minLines,
+          style: GoogleFonts.montserrat(
+            color: isFocused ? AppTheme.titleColor1 : AppTheme.placeholderColor,
+            fontWeight: FontWeight.w400,
+            fontSize: 15,
+          ),
+          decoration: InputDecoration(
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 17, vertical: 15),
+            enabledBorder: const OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(12)),
+              borderSide: BorderSide(color: Color(0xFFDBDBDB), width: 1),
+            ),
+            focusedBorder: const OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(12)),
+              borderSide: BorderSide(color: AppTheme.primaryColor1, width: 1),
+            ),
+            errorBorder: const OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(12)),
+              borderSide: BorderSide(color: Colors.red, width: 2),
+            ),
+            focusedErrorBorder: const OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(12)),
+              borderSide: BorderSide(color: Colors.red, width: 2),
+            ),
+            filled: true,
+            fillColor: Colors.white,
+            hintText: widget.hintText,
+            hintStyle: GoogleFonts.montserrat(
+              color: AppTheme.placeholderColor,
+              fontWeight: FontWeight.w400,
+              fontSize: 15,
+            ),
+            errorStyle: GoogleFonts.montserrat(
+              color: Colors.red,
+              fontWeight: FontWeight.w500,
+              fontSize: 15,
+            ),
+            suffixIcon: widget.suffixWidget,
+            prefixIcon: widget.prefixWidget,
           ),
         ),
       ],

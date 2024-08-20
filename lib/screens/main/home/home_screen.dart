@@ -10,6 +10,7 @@ import 'package:concierge_networking/components/circle_button.dart';
 import 'package:concierge_networking/components/custom_button.dart';
 import 'package:concierge_networking/components/custom_container.dart';
 import 'package:concierge_networking/components/custom_title_textfield.dart';
+import 'package:concierge_networking/screens/main/chat/chat_screen.dart';
 import 'package:concierge_networking/screens/main/components/content_widget.dart';
 import 'package:concierge_networking/screens/main/components/gradient_image_widget.dart';
 import 'package:concierge_networking/screens/main/components/home_heading_widget.dart';
@@ -121,7 +122,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         gapH20,
                         CustomButton(
                           title: "Chat with us",
-                          onPressed: () {},
+                          onPressed: () {
+                            NavigationService.go(const ChatScreen());
+                          },
                           backgroundColor: Colors.white,
                           textColor: AppTheme.primaryColor1,
                           isSmallText: true,
