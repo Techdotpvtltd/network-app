@@ -8,6 +8,7 @@
 import 'package:concierge_networking/screens/main/booking/booking_screen.dart';
 import 'package:concierge_networking/screens/main/chat/chat_screen.dart';
 import 'package:concierge_networking/screens/main/home/home_screen.dart';
+import 'package:concierge_networking/screens/main/profile/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_floating_bottom_bar/flutter_floating_bottom_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -100,6 +101,8 @@ class _BottomBarScreenState extends State<BottomBarScreen>
                       : const Color(0xFFF9BBBD),
                   BlendMode.srcIn,
                 ),
+                width: 23,
+                height: 23,
               ),
             ),
         ],
@@ -117,6 +120,10 @@ class _BottomBarScreenState extends State<BottomBarScreen>
         if (selectedIndex == 2) {
           return ChatScreen(
               scrollController: scrollController, isShowBackButton: false);
+        }
+
+        if (selectedIndex == 3) {
+          return ProfileScreen(scrollController: scrollController);
         }
         return items[selectedIndex].child;
       },

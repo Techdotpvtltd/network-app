@@ -14,6 +14,10 @@ class AppAssets {
   static const String phoneIcon = "${AppAssets._iconPath}/phone-ic.svg";
   static const String profileIcon = "${AppAssets._iconPath}/profile-ic.svg";
   static const String menuIcon = "${AppAssets._iconPath}/menu-ic.svg";
+  static const String backupIcon = "${AppAssets._iconPath}/back-up-ic.svg";
+  static const String chainIcon = "${AppAssets._iconPath}/chain-ic.svg";
+  static const String noteIcon = "${AppAssets._iconPath}/note-ic.svg";
+  static const String privacyIcon = "${AppAssets._iconPath}/privacy-ic.svg";
   static const String notificationIcon =
       "${AppAssets._iconPath}/notification-ic.svg";
   static const String subscriptionIcon =
@@ -34,5 +38,7 @@ class AppAssets {
   static const String wt3 = "${AppAssets._imagePath}/wt3.png";
   static const String scaffoldBG1 = "${AppAssets._imagePath}/scaffold-bg.png";
   static const String scaffoldBG = "${AppAssets._imagePath}/scaffold-bg-2.png";
+  static const String scaffoldBG2 =
+      "${AppAssets._imagePath}/background-scaffold2.png";
   static const String demoGirl = "${AppAssets._imagePath}/demo-girl.png";
 }
