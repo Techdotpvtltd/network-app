@@ -5,6 +5,7 @@
 // Date:        12-08-24 11:29:26 -- Monday
 // Description:
 
+import 'package:concierge_networking/screens/main/booking/booking_screen.dart';
 import 'package:concierge_networking/screens/main/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_floating_bottom_bar/flutter_floating_bottom_bar.dart';
@@ -105,6 +106,10 @@ class _BottomBarScreenState extends State<BottomBarScreen>
       body: (context, scrollController) {
         if (selectedIndex == 0) {
           return HomeScreen(scrollController: scrollController);
+        }
+
+        if (selectedIndex == 1) {
+          return BookingScreen(scrollController: scrollController);
         }
         return items[selectedIndex].child;
       },
