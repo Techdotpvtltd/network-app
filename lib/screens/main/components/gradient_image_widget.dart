@@ -7,9 +7,9 @@
 
 import 'package:flutter/material.dart';
 
-import '../../../../components/custom_container.dart';
-import '../../../../components/custom_network_image.dart';
-import '../../../../utils/constants/app_theme.dart';
+import '../../../components/custom_container.dart';
+import '../../../components/custom_network_image.dart';
+import '../../../utils/constants/app_theme.dart';
 
 class GradientImageWidget extends StatelessWidget {
   const GradientImageWidget(

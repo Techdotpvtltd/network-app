@@ -29,12 +29,12 @@ class CustomBackButton extends StatelessWidget {
         backgroundColor: WidgetStatePropertyAll(
           backgroundColor ?? AppTheme.primaryColor1,
         ),
-        fixedSize: const WidgetStatePropertyAll(Size(54, 54)),
+        fixedSize: const WidgetStatePropertyAll(Size(40, 40)),
       ),
       icon: const Icon(
         Icons.arrow_back_ios_new,
         color: Colors.white,
-        size: 18,
+        size: 16,
       ),
     );
   }

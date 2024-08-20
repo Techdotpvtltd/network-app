@@ -10,11 +10,13 @@ import 'package:concierge_networking/components/circle_button.dart';
 import 'package:concierge_networking/components/custom_button.dart';
 import 'package:concierge_networking/components/custom_container.dart';
 import 'package:concierge_networking/components/custom_title_textfield.dart';
-import 'package:concierge_networking/screens/main/home/components/content_widget.dart';
-import 'package:concierge_networking/screens/main/home/components/gradient_image_widget.dart';
-import 'package:concierge_networking/screens/main/home/components/home_heading_widget.dart';
+import 'package:concierge_networking/screens/main/components/content_widget.dart';
+import 'package:concierge_networking/screens/main/components/gradient_image_widget.dart';
+import 'package:concierge_networking/screens/main/components/home_heading_widget.dart';
+import 'package:concierge_networking/screens/main/home/detail_screen.dart';
 import 'package:concierge_networking/utils/constants/app_assets.dart';
 import 'package:concierge_networking/utils/constants/constants.dart';
+import 'package:concierge_networking/utils/extensions/navigation_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -187,13 +189,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
                   itemBuilder: (_, index) {
-                    return const Padding(
-                      padding: EdgeInsets.only(right: 12),
+                    return Padding(
+                      padding: const EdgeInsets.only(right: 12),
                       child: ContentWidget(
+                        onPressed: () {
+                          NavigationService.go(const DetailScreen());
+                        },
                         width: 180,
                         coverUrl:
                             "https://elite-cv.com/wp-content/uploads/2021/08/consultant.jpg",
-                        child: Column(
+                        child: const Column(
                           mainAxisAlignment: MainAxisAlignment.end,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [

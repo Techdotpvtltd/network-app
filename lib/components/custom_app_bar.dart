@@ -37,9 +37,7 @@ PreferredSizeWidget customAppBar({
         shadowColor: Colors.transparent,
         titleSpacing: showBack ? 0 : 20,
         leading: showBack
-            ? Center(
-                child: CustomBackButton(onPressed: onBackPressed),
-              )
+            ? Center(child: CustomBackButton(onPressed: onBackPressed))
             : null,
         actions: [
           titleWidget ??

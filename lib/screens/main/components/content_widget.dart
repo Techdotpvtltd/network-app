@@ -5,7 +5,7 @@
 // Date:        20-08-24 15:40:15 -- Tuesday
 // Description:
 
-import 'package:concierge_networking/screens/main/home/components/gradient_image_widget.dart';
+import 'package:concierge_networking/screens/main/components/gradient_image_widget.dart';
 import 'package:flutter/material.dart';
 
 class ContentWidget extends StatefulWidget {
