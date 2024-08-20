@@ -12,6 +12,7 @@ import 'package:concierge_networking/components/custom_ink_well.dart';
 import 'package:concierge_networking/components/custom_scaffold.dart';
 import 'package:concierge_networking/components/text_widget.dart';
 import 'package:concierge_networking/screens/main/booking/booking_screen.dart';
+import 'package:concierge_networking/screens/main/other/support_screen.dart';
 import 'package:concierge_networking/screens/main/profile/edit_profile.dart';
 import 'package:concierge_networking/screens/onboarding/forgot_screen.dart';
 import 'package:concierge_networking/utils/constants/app_assets.dart';
@@ -145,7 +146,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
               _ButtonWidget(
                 "Support",
                 iconPath: AppAssets.phoneIcon,
-                onPressed: () {},
+                onPressed: () {
+                  NavigationService.go(const SupportScreen());
+                },
               ),
               gapH16,
               _ButtonWidget(

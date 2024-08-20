@@ -11,6 +11,7 @@ import 'package:concierge_networking/components/custom_container.dart';
 import 'package:concierge_networking/screens/main/booking/booking_screen.dart';
 import 'package:concierge_networking/screens/main/chat/chat_screen.dart';
 import 'package:concierge_networking/screens/main/home/bottom_bar_screen.dart';
+import 'package:concierge_networking/screens/main/other/support_screen.dart';
 import 'package:concierge_networking/screens/main/profile/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -60,7 +61,7 @@ final List<NaviItemModel> items = [
   NaviItemModel(
     title: "Support",
     icon: AppAssets.phoneIcon,
-    child: const SizedBox(),
+    child: const SupportScreen(),
   ),
 ];
 
