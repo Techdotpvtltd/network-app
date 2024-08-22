@@ -38,7 +38,7 @@ PreferredSizeWidget customAppBar({
         titleSpacing: showBack ? 0 : 20,
         leading: showBack
             ? Center(child: CustomBackButton(onPressed: onBackPressed))
-            : null,
+            : const SizedBox(),
         actions: [
           titleWidget ??
               Text(

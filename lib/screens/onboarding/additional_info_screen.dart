@@ -16,6 +16,7 @@ import '../../components/custom_title_textfield.dart';
 import '../../components/text_widget.dart';
 import '../../utils/constants/app_assets.dart';
 import '../../utils/constants/constants.dart';
+import '../main/other/agreement_screen.dart';
 
 class AdditionalInfoScreen extends StatefulWidget {
   const AdditionalInfoScreen({super.key});
@@ -83,7 +84,8 @@ class _AdditionalInfoScreenState extends State<AdditionalInfoScreen> {
                     CustomTextButton(
                       title: "Skip",
                       onPressed: () {
-                        NavigationService.go(const UploadProfileScreen());
+                        NavigationService.offAll(const AgreementScreen(
+                            isPrivacy: true, isComingFromAuth: true));
                       },
                       isShowForwardArrow: false,
                       foregroundColor: AppTheme.titleColor1,

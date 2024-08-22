@@ -6,7 +6,7 @@
 // Description:
 
 import 'package:concierge_networking/components/avatar_widget.dart';
-import 'package:concierge_networking/screens/main/home/drawer_screen.dart';
+import 'package:concierge_networking/screens/main/other/agreement_screen.dart';
 import 'package:concierge_networking/utils/extensions/navigation_service.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -90,7 +90,8 @@ class _UploadProfileScreenState extends State<UploadProfileScreen> {
                     CustomTextButton(
                       title: "Skip",
                       onPressed: () {
-                        NavigationService.offAll(const DrawerScreen());
+                        NavigationService.offAll(const AgreementScreen(
+                            isPrivacy: true, isComingFromAuth: true));
                       },
                       isShowForwardArrow: false,
                       foregroundColor: AppTheme.titleColor1,
@@ -99,7 +100,8 @@ class _UploadProfileScreenState extends State<UploadProfileScreen> {
                     CustomButton(
                       title: "Next",
                       onPressed: () {
-                        NavigationService.offAll(const DrawerScreen());
+                        NavigationService.offAll(const AgreementScreen(
+                            isPrivacy: true, isComingFromAuth: true));
                       },
                     ),
                   ],

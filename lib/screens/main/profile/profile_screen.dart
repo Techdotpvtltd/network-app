@@ -12,6 +12,7 @@ import 'package:concierge_networking/components/custom_ink_well.dart';
 import 'package:concierge_networking/components/custom_scaffold.dart';
 import 'package:concierge_networking/components/text_widget.dart';
 import 'package:concierge_networking/screens/main/booking/booking_screen.dart';
+import 'package:concierge_networking/screens/main/other/agreement_screen.dart';
 import 'package:concierge_networking/screens/main/other/refer_friend_screen.dart';
 import 'package:concierge_networking/screens/main/other/subscription_screen.dart';
 import 'package:concierge_networking/screens/main/other/support_screen.dart';
@@ -164,13 +165,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
               _ButtonWidget(
                 "Privacy policy",
                 iconPath: AppAssets.privacyIcon,
-                onPressed: () {},
+                onPressed: () {
+                  NavigationService.go(const AgreementScreen(isPrivacy: true));
+                },
               ),
               gapH16,
               _ButtonWidget(
                 "Terms  & Conditions",
                 iconPath: AppAssets.noteIcon,
-                onPressed: () {},
+                onPressed: () {
+                  NavigationService.go(const AgreementScreen(isPrivacy: false));
+                },
               ),
               gapH16,
               _ButtonWidget(
