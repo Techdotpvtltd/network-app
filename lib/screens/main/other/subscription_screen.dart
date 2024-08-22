@@ -8,8 +8,10 @@
 import 'package:concierge_networking/components/custom_app_bar.dart';
 import 'package:concierge_networking/components/custom_button.dart';
 import 'package:concierge_networking/components/text_widget.dart';
+import 'package:concierge_networking/screens/main/other/payment_success_screen.dart';
 import 'package:concierge_networking/utils/constants/app_theme.dart';
 import 'package:concierge_networking/utils/constants/constants.dart';
+import 'package:concierge_networking/utils/extensions/navigation_service.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -31,7 +33,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SizedBox(
-            height: SCREEN_HEIGHT * 0.58,
+            height: SCREEN_HEIGHT * 0.61,
             child: PageView(
               controller: pageController,
               padEnds: false,
@@ -66,7 +68,7 @@ class _SubscriptionCell1 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(left: 28, right: 28),
-      padding: const EdgeInsets.only(top: 30, left: 37, right: 24),
+      padding: const EdgeInsets.only(top: 30, left: 37, right: 24, bottom: 20),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(28),
         gradient: LinearGradient(
@@ -134,10 +136,12 @@ class _SubscriptionCell1 extends StatelessWidget {
                 ],
               ),
             ),
-          gapH20,
+          const Spacer(),
           CustomButton(
             title: "Add Plan",
-            onPressed: () {},
+            onPressed: () {
+              NavigationService.go(const PaymentSuccessScreen());
+            },
             width: SCREEN_WIDTH,
           ),
         ],
@@ -153,7 +157,7 @@ class _SubscriptionCell2 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(left: 28, right: 28),
-      padding: const EdgeInsets.only(top: 30, left: 37, right: 24),
+      padding: const EdgeInsets.only(top: 30, left: 37, right: 24, bottom: 20),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(28),
         gradient: LinearGradient(
@@ -221,10 +225,12 @@ class _SubscriptionCell2 extends StatelessWidget {
                 ],
               ),
             ),
-          gapH20,
+          const Spacer(),
           CustomButton(
             title: "Add Plan",
-            onPressed: () {},
+            onPressed: () {
+              NavigationService.go(const PaymentSuccessScreen());
+            },
             width: SCREEN_WIDTH,
             backgroundColor: Colors.white,
             textColor: AppTheme.primaryColor1,
@@ -242,7 +248,7 @@ class _SubscriptionCell3 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(left: 28, right: 28),
-      padding: const EdgeInsets.only(top: 30, left: 37, right: 24),
+      padding: const EdgeInsets.only(top: 30, left: 37, right: 24, bottom: 20),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(28),
         color: const Color(0xFFEFEFEF),
@@ -303,10 +309,12 @@ class _SubscriptionCell3 extends StatelessWidget {
                 ],
               ),
             ),
-          gapH20,
+          const Spacer(),
           CustomButton(
             title: "Add Plan",
-            onPressed: () {},
+            onPressed: () {
+              NavigationService.go(const PaymentSuccessScreen());
+            },
             width: SCREEN_WIDTH,
           ),
         ],

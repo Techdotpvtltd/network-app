@@ -18,6 +18,8 @@ class AppAssets {
   static const String chainIcon = "${AppAssets._iconPath}/chain-ic.svg";
   static const String noteIcon = "${AppAssets._iconPath}/note-ic.svg";
   static const String privacyIcon = "${AppAssets._iconPath}/privacy-ic.svg";
+  static const String circleTickIcon =
+      "${AppAssets._iconPath}/circle-tick-ic.png";
   static const String notificationIcon =
       "${AppAssets._iconPath}/notification-ic.svg";
   static const String subscriptionIcon =

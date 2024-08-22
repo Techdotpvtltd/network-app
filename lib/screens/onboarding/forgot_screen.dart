@@ -40,7 +40,7 @@ class ForgotScreen extends StatelessWidget {
                 gapH50,
                 gapH20,
                 const PrimaryTitleText(
-                  "Forget Password",
+                  "Forgot Password",
                   size: 34,
                 ),
                 gapH14,
