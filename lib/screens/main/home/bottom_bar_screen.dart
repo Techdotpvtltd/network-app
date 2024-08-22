@@ -5,11 +5,14 @@
 // Date:        12-08-24 11:29:26 -- Monday
 // Description:
 
+import 'package:concierge_networking/blocs/bottom_bar/bottom_bar_cubit.dart';
+import 'package:concierge_networking/blocs/bottom_bar/bottom_bar_state.dart';
 import 'package:concierge_networking/screens/main/booking/booking_screen.dart';
 import 'package:concierge_networking/screens/main/chat/chat_screen.dart';
 import 'package:concierge_networking/screens/main/home/home_screen.dart';
 import 'package:concierge_networking/screens/main/profile/profile_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_floating_bottom_bar/flutter_floating_bottom_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -29,6 +32,7 @@ class _BottomBarScreenState extends State<BottomBarScreen>
     with SingleTickerProviderStateMixin {
   late TabController tabController;
   late ScrollController scrollController = ScrollController();
+  bool isShow = true;
 
   int selectedIndex = 0;
   late final List<NaviItemModel> items = [
@@ -63,71 +67,113 @@ class _BottomBarScreenState extends State<BottomBarScreen>
   @override
   @override
   Widget build(BuildContext context) {
-    return BottomBar(
-      barColor: AppTheme.primaryColor1,
-      barAlignment: Alignment.bottomCenter,
-      borderRadius: const BorderRadius.only(
-        topLeft: Radius.circular(40),
-        topRight: Radius.circular(40),
-      ),
-      offset: 0,
-      width: SCREEN_WIDTH,
-      child: TabBar(
-        controller: tabController,
-        padding:
-            const EdgeInsets.only(left: 30, bottom: 22, top: 22, right: 20),
-        indicatorColor: Colors.white,
-        indicatorWeight: 3,
-        indicatorSize: TabBarIndicatorSize.tab,
-        indicatorPadding: const EdgeInsets.symmetric(horizontal: 20),
-        dividerColor: Colors.transparent,
-        tabAlignment: TabAlignment.fill,
-        labelPadding: EdgeInsets.zero,
-        overlayColor: const WidgetStatePropertyAll(Colors.transparent),
-        onTap: (value) {
-          setState(() {
-            selectedIndex = value;
-          });
+    return BlocProvider<BottomBarCubit>(
+      create: (context) => BottomBarCubit(),
+      child: BlocListener<BottomBarCubit, BottomBarState>(
+        listener: (context, state) {
+          if (state is BottomBarStateShow) {
+            setState(() {
+              isShow = true;
+            });
+          }
+
+          if (state is BottomBarStateHide) {
+            setState(() {
+              isShow = false;
+            });
+          }
+
+          if (state is BottomBarStateMoveTo) {
+            setState(() {
+              if (!isShow) {
+                isShow = true;
+              }
+            });
+
+            Future.delayed(
+              const Duration(milliseconds: 250),
+              () {
+                setState(() {
+                  selectedIndex = state.tabIndex;
+                });
+              },
+            );
+          }
         },
-        tabs: [
-          for (int index = 0; index < items.length; index++)
-            Padding(
-              padding: const EdgeInsets.only(bottom: 8),
-              child: SvgPicture.asset(
-                items[index].icon,
-                colorFilter: ColorFilter.mode(
-                  selectedIndex == index
-                      ? Colors.white
-                      : const Color(0xFFF9BBBD),
-                  BlendMode.srcIn,
+        child: BottomBar(
+          barColor: AppTheme.primaryColor1,
+          barAlignment: Alignment.bottomCenter,
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(40),
+            topRight: Radius.circular(40),
+          ),
+          offset: 0,
+          width: SCREEN_WIDTH,
+          child: !isShow
+              ? const SizedBox()
+              : TabBar(
+                  controller: tabController,
+                  padding: const EdgeInsets.only(
+                    left: 30,
+                    bottom: 22,
+                    top: 22,
+                    right: 20,
+                  ),
+                  indicatorColor: Colors.white,
+                  indicatorWeight: 3,
+                  indicatorSize: TabBarIndicatorSize.tab,
+                  indicatorPadding: const EdgeInsets.symmetric(horizontal: 20),
+                  dividerColor: Colors.transparent,
+                  tabAlignment: TabAlignment.fill,
+                  labelPadding: EdgeInsets.zero,
+                  overlayColor:
+                      const WidgetStatePropertyAll(Colors.transparent),
+                  onTap: (value) {
+                    setState(() {
+                      selectedIndex = value;
+                    });
+                  },
+                  tabs: [
+                    for (int index = 0; index < items.length; index++)
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: SvgPicture.asset(
+                          items[index].icon,
+                          colorFilter: ColorFilter.mode(
+                            selectedIndex == index
+                                ? Colors.white
+                                : const Color(0xFFF9BBBD),
+                            BlendMode.srcIn,
+                          ),
+                          width: 23,
+                          height: 23,
+                        ),
+                      ),
+                  ],
                 ),
-                width: 23,
-                height: 23,
-              ),
-            ),
-        ],
+          body: (context, scrollController) {
+            if (selectedIndex == 0) {
+              return HomeScreen(scrollController: scrollController);
+            }
+
+            if (selectedIndex == 1) {
+              return BookingScreen(
+                  scrollController: scrollController, isShowBackButton: false);
+            }
+
+            if (selectedIndex == 2) {
+              return ChatScreen(
+                  scrollController: scrollController, isCameFromBottom: true);
+            }
+
+            if (selectedIndex == 3) {
+              return ProfileScreen(
+                  scrollController: scrollController, isShowBackButton: false);
+            }
+            return items[selectedIndex].child;
+          },
+        ),
       ),
-      body: (context, scrollController) {
-        if (selectedIndex == 0) {
-          return HomeScreen(scrollController: scrollController);
-        }
-
-        if (selectedIndex == 1) {
-          return BookingScreen(
-              scrollController: scrollController, isShowBackButton: false);
-        }
-
-        if (selectedIndex == 2) {
-          return ChatScreen(
-              scrollController: scrollController, isShowBackButton: false);
-        }
-
-        if (selectedIndex == 3) {
-          return ProfileScreen(
-              scrollController: scrollController, isShowBackButton: false);
-        }
-        return items[selectedIndex].child;
-      },
     );
   }
 }

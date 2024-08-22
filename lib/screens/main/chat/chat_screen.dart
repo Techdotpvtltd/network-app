@@ -5,6 +5,7 @@
 // Date:        20-08-24 18:03:32 -- Tuesday
 // Description:
 
+import 'package:concierge_networking/blocs/bottom_bar/bottom_bar_cubit.dart';
 import 'package:concierge_networking/components/circle_button.dart';
 import 'package:concierge_networking/components/custom_app_bar.dart';
 import 'package:concierge_networking/components/custom_title_textfield.dart';
@@ -14,37 +15,56 @@ import 'package:concierge_networking/utils/constants/app_assets.dart';
 import 'package:concierge_networking/utils/constants/app_theme.dart';
 import 'package:concierge_networking/utils/constants/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import '../../../utils/extensions/navigation_service.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({
     super.key,
     this.scrollController,
-    this.isShowBackButton = true,
+    this.isCameFromBottom = false,
   });
   final ScrollController? scrollController;
-  final bool isShowBackButton;
+  final bool isCameFromBottom;
   @override
   State<ChatScreen> createState() => _ChatScreenState();
 }
 
 class _ChatScreenState extends State<ChatScreen> {
   @override
+  void initState() {
+    if (widget.isCameFromBottom) {
+      context.read<BottomBarCubit>().hide();
+    }
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: customAppBar(
-        showBack: widget.isShowBackButton,
         actions: SvgPicture.asset(AppAssets.threeDotsHorizontalIcon),
+        onBackPressed: () {
+          if (widget.isCameFromBottom) {
+            context.read<BottomBarCubit>().moveTo(atTab: 0);
+            return;
+          }
+          NavigationService.back();
+        },
       ),
       body: SafeArea(
         child: Padding(
           padding:
-              const EdgeInsets.only(top: 20, left: 24, right: 24, bottom: 5),
-          child: Stack(
+              const EdgeInsets.only(top: 20, left: 24, right: 24, bottom: 8),
+          child: Column(
             children: [
-              Positioned.fill(
+              Expanded(
                 child: SingleChildScrollView(
+                  padding: const EdgeInsets.only(bottom: 30),
+                  reverse: true,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -78,38 +98,39 @@ class _ChatScreenState extends State<ChatScreen> {
                       const _RightBubble(),
                       gapH20,
                       const BookingWidget(),
+                      gapH20,
+                      const _LeftBubble(),
+                      gapH20,
+                      const _RightBubble(),
+                      gapH20,
+                      const BookingWidget(),
                     ],
                   ),
                 ),
               ),
-              Positioned(
-                left: 0,
-                right: 0,
-                bottom: widget.isShowBackButton ? 0 : 45,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: CustomMessageTextField(
-                        hintText: "Message",
-                        prefixWidget: SizedBox(
-                          width: 19,
-                          child: Center(
-                            child: SvgPicture.asset(
-                              AppAssets.clipIcon,
-                            ),
+              Row(
+                children: [
+                  Expanded(
+                    child: CustomMessageTextField(
+                      hintText: "Message",
+                      prefixWidget: SizedBox(
+                        width: 19,
+                        child: Center(
+                          child: SvgPicture.asset(
+                            AppAssets.clipIcon,
                           ),
                         ),
                       ),
                     ),
-                    gapW10,
-                    CircleButton(
-                      backgroundColor: const Color(0xFF444444),
-                      onPressed: () {},
-                      iconPath: AppAssets.sendIcon,
-                      iconSize: const Size(18, 18),
-                    )
-                  ],
-                ),
+                  ),
+                  gapW10,
+                  CircleButton(
+                    backgroundColor: const Color(0xFF444444),
+                    onPressed: () {},
+                    iconPath: AppAssets.sendIcon,
+                    iconSize: const Size(18, 18),
+                  )
+                ],
               )
             ],
           ),

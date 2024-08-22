@@ -8,7 +8,7 @@
 import 'package:concierge_networking/utils/constants/app_theme.dart';
 import 'package:flutter/material.dart';
 
-import '../../utils/extensions/navigation_service.dart';
+import '../utils/extensions/navigation_service.dart';
 
 class CustomBackButton extends StatelessWidget {
   const CustomBackButton({super.key, this.onPressed, this.backgroundColor});

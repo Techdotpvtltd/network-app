@@ -130,6 +130,7 @@ class __DrawerMenuState extends State<_DrawerMenu> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: AppTheme.primaryColor1,
       body: SafeArea(
         child: Container(
