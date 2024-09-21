@@ -36,6 +36,11 @@ class FirebaseAuthService {
     return _auth.currentUser?.emailVerified ?? false;
   }
 
+  Future<List<String>> fetchSignInMethodsForEmail(
+      {required String withEmail}) async {
+    return await _auth.fetchSignInMethodsForEmail(withEmail);
+  }
+
   // Login User With Credentials ====================================
   Future<UserCredential> loginWithCredentials(
       {required AuthCredential credential}) async {

@@ -1,11 +1,12 @@
 import 'dart:developer';
 import 'dart:io';
-import '/manager/app_manager.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../exceptions/auth_exceptions.dart';
 import '../exceptions/data_exceptions.dart';
 import '../exceptions/exception_parsing.dart';
+import '../manager/app_manager.dart';
 import '../models/user_model.dart';
 import '../utils/constants/firebase_collections.dart';
 import '../web_services/firestore_services.dart';
@@ -49,36 +50,27 @@ class UserRepo {
       AppManager.currentUser = userModel;
       log("User = $userModel");
 
-      if (userModel.avatar == null || userModel.avatar == "") {
-        throw DataExceptionAvatarRequired();
-      }
+      // if (userModel.avatar == null || userModel.avatar == "") {
+      //   throw DataExceptionAvatarRequired();
+      // }
     } catch (e) {
       throw throwAppException(e: e);
     }
   }
 
   /// Create User Profile
-  Future<void> create(
-      {required String uid,
-      String? firstName,
-      String? lastName,
-      DateTime? dateOfBirth,
-      String? phone,
-      required String email}) async {
+  Future<void> create({required String email}) async {
     try {
-      if (uid == "") {
+      final userId = FirebaseAuth.instance.currentUser?.uid;
+      if (userId == null || userId == "") {
         throw AuthExceptionUnAuthorized();
       }
 
       final UserModel user = UserModel(
-        uid: uid,
-        firstName: lastName,
-        lastName: firstName,
-        dateOfBirth: dateOfBirth,
+        uid: userId,
         email: email,
         createdAt: DateTime.now(),
         isActived: true,
-        phone: phone,
       );
 
       final Map<String, dynamic> data = await FirestoreService().saveWithDocId(
@@ -96,24 +88,6 @@ class UserRepo {
   //  Update user Profile ====================================
   Future<UserModel> update({required UserModel user}) async {
     try {
-      // /// There is no user profile
-      // if (_userModel == null) {
-      //   final UserModel model = UserModel(
-      //     uid:
-      //     name: name,
-      //     email: email,
-      //     createdAt: DateTime.now(),
-      //     avatar: imagePath ?? "",
-      //   );
-      //   await FirestoreService().saveWithDocId(
-      //     path: FIREBASE_COLLECTION_USER,
-      //     docId: model.uid,
-      //     data: model.toMap(),
-      //   );
-      //   _userModel = model;
-      //   return _userModel!;
-      // }
-
       await FirestoreService().updateWithDocId(
           path: FIREBASE_COLLECTION_USER, docId: user.uid, data: user.toMap());
       AppManager.currentUser = user;
