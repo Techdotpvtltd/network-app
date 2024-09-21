@@ -18,6 +18,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
+import '../../../blocs/auth/auth_bloc.dart';
+import '../../../blocs/auth/auth_event.dart';
+import '../../../blocs/auth/auth_state.dart';
 import '../../../blocs/drawer/drawer_cubit.dart';
 import '../../../blocs/drawer/drawer_state.dart';
 import '../../../blocs/user/user_bloc.dart';
@@ -29,13 +32,14 @@ import '../../../components/text_widget.dart';
 import '../../../manager/app_manager.dart';
 import '../../../models/user_model.dart';
 import '../../../screens/onboarding/forgot_screen.dart';
-import '../../../screens/onboarding/splash_screen.dart';
 import '../../../utils/constants/app_assets.dart';
 import '../../../utils/constants/app_theme.dart';
 import '../../../utils/constants/constants.dart';
+import '../../../utils/dialogs/dialogs.dart';
 import '../../../utils/extensions/navigation_service.dart';
 
 import '../../../models/bottom_bar_item_model.dart';
+import '../../onboarding/login_screen.dart';
 
 final List<NaviItemModel> items = [
   NaviItemModel(
@@ -136,6 +140,14 @@ class __DrawerMenuState extends State<_DrawerMenu> {
   Widget build(BuildContext context) {
     return MultiBlocListener(
       listeners: [
+        BlocListener<AuthBloc, AuthState>(
+          listener: (cxt, state) {
+            if (state is AuthStateLogout) {
+              NavigationService.offAll(const LoginScreen());
+            }
+          },
+        ),
+
         /// UserBloc
         BlocListener<UserBloc, UserState>(
           listener: (ctx, state) {
@@ -273,7 +285,16 @@ class __DrawerMenuState extends State<_DrawerMenu> {
                     backgroundColor: Colors.black,
                     title: "Logout",
                     onPressed: () {
-                      NavigationService.offAll(const SplashScreen());
+                      CustomDialogs().alertBox(
+                        title: "Logout Account",
+                        message: "Are you sure to logout this account?",
+                        positiveTitle: "Logout",
+                        onPositivePressed: () {
+                          context
+                              .read<AuthBloc>()
+                              .add(AuthEventPerformLogout());
+                        },
+                      );
                     },
                     isSmallText: true,
                   ),
