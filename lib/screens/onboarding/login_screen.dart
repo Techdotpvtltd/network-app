@@ -27,6 +27,7 @@ import '../../blocs/auth/auth_bloc.dart';
 import '../../blocs/auth/auth_event.dart';
 import '../../utils/dialogs/snack_bar.dart';
 import '../main/home/drawer_screen.dart';
+import 'dart:io' show Platform;
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -214,14 +215,19 @@ class _LoginScreenState extends State<LoginScreen> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   SocialIconButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      triggerGoogleLogin();
+                                    },
                                     icon: AppAssets.googleIcon,
                                   ),
-                                  gapW16,
-                                  SocialIconButton(
-                                    onPressed: () {},
-                                    icon: AppAssets.appleIcon,
-                                  ),
+                                  if (Platform.isIOS) gapW16,
+                                  if (Platform.isIOS)
+                                    SocialIconButton(
+                                      onPressed: () {
+                                        triggerAppleLogin();
+                                      },
+                                      icon: AppAssets.appleIcon,
+                                    ),
                                   gapH40,
                                 ],
                               ),

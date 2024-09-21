@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "313455866666-q2obkjc9i2r9v42nne0krhuf5r887vor.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.techdot.cnetworking",
+            "certificate_hash": "8d93f73cd33cca5185a8e1200f3b77c758d751ad"
+          }
+        },
+        {
           "client_id": "313455866666-ar0g6p5lf5v589p9jvengcf4ik601d99.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,6 +37,13 @@
             {
               "client_id": "313455866666-ar0g6p5lf5v589p9jvengcf4ik601d99.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "313455866666-699ht19823gkl5vcmo1vmkqdf3p48cjb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.techdot.cnetworking"
+              }
             }
           ]
         }
