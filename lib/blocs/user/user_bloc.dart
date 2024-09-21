@@ -1,4 +1,3 @@
-import '../../exceptions/data_exceptions.dart';
 import '/exceptions/auth_exceptions.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -39,25 +38,22 @@ class UserBloc extends Bloc<UserEvent, UserState> {
             user = user.copyWith(avatar: avatarUrl);
           }
 
-          if (event.name != null) {
-            if (event.name == "") {
-              emit(UserStateProfileUpdatingFailure(
-                  exception: DataExceptionRequiredField(
-                      message: "Please Enter name first")));
-              return;
-            }
-            user = user.copyWith(name: event.name);
+          if (event.firstName != null) {
+            user = user.copyWith(firstName: event.firstName);
+          }
+
+          if (event.lastName != null) {
+            user = user.copyWith(firstName: event.lastName);
           }
 
           if (event.phone != null) {
-            if (event.phone == "") {
-              emit(UserStateProfileUpdatingFailure(
-                  exception: DataExceptionRequiredField(
-                      message: "Please add phone number")));
-              return;
-            }
             user = user.copyWith(phone: event.phone);
           }
+
+          if (event.dateOfBirth != null) {
+            user = user.copyWith(dateOfBirth: event.dateOfBirth);
+          }
+
           emit(UserStateProfileUpdating());
           final UserModel updatedModel = await UserRepo().update(user: user);
           emit(UserStateProfileUpdated(user: updatedModel));

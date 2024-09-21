@@ -13,33 +13,42 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserModel {
   final String uid;
-  final String name;
+  final String? firstName;
+  final String? lastName;
+  final DateTime? dateOfBirth;
   final String email;
-  final String phone;
+  final String? phone;
   final DateTime createdAt;
   final bool? isActived;
   final String? avatar;
-  UserModel(
-      {required this.uid,
-      required this.name,
-      required this.email,
-      required this.phone,
-      required this.createdAt,
-      this.isActived,
-      this.avatar});
+  UserModel({
+    required this.uid,
+    this.firstName,
+    this.lastName,
+    this.dateOfBirth,
+    required this.email,
+    this.phone,
+    required this.createdAt,
+    this.isActived,
+    this.avatar,
+  });
 
   UserModel copyWith({
     String? uid,
-    String? name,
+    String? firstName,
+    String? lastName,
+    DateTime? dateOfBirth,
     String? email,
-    DateTime? createdAt,
     String? phone,
+    DateTime? createdAt,
     bool? isActived,
     String? avatar,
   }) {
     return UserModel(
       uid: uid ?? this.uid,
-      name: name ?? this.name,
+      firstName: firstName ?? this.firstName,
+      lastName: lastName ?? this.lastName,
+      dateOfBirth: dateOfBirth ?? this.dateOfBirth,
       email: email ?? this.email,
       phone: phone ?? this.phone,
       createdAt: createdAt ?? this.createdAt,
@@ -51,7 +60,10 @@ class UserModel {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'uid': uid,
-      'name': name,
+      'firstName': firstName,
+      'lastName': lastName,
+      'dateOfBirth':
+          dateOfBirth != null ? Timestamp.fromDate(dateOfBirth!) : null,
       'email': email,
       'phone': phone,
       'createdAt': Timestamp.fromDate(createdAt),
@@ -63,9 +75,13 @@ class UserModel {
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
       uid: map['uid'] as String,
-      name: map['name'] as String,
-      phone: map['phone'] as String? ?? "",
+      firstName: map['firstName'] != null ? map['firstName'] as String : null,
+      lastName: map['lastName'] != null ? map['lastName'] as String : null,
+      dateOfBirth: map['dateOfBirth'] != null
+          ? (map['dateOfBirth'] as Timestamp).toDate()
+          : null,
       email: map['email'] as String,
+      phone: map['phone'] != null ? map['phone'] as String : null,
       createdAt: (map['createdAt'] as Timestamp).toDate(),
       isActived: map['isActived'] != null ? map['isActived'] as bool : null,
       avatar: map['avatar'] != null ? map['avatar'] as String : null,
@@ -79,7 +95,7 @@ class UserModel {
 
   @override
   String toString() {
-    return 'UserModel(uid: $uid, name: $name,phone: $phone, email: $email, createdAt: $createdAt, isActived: $isActived, avatar: $avatar)';
+    return 'UserModel(uid: $uid, firstName: $firstName, lastName: $lastName, dateOfBirth: $dateOfBirth, email: $email, phone: $phone, createdAt: $createdAt, isActived: $isActived, avatar: $avatar)';
   }
 
   @override
@@ -87,7 +103,9 @@ class UserModel {
     if (identical(this, other)) return true;
 
     return other.uid == uid &&
-        other.name == name &&
+        other.firstName == firstName &&
+        other.lastName == lastName &&
+        other.dateOfBirth == dateOfBirth &&
         other.email == email &&
         other.phone == phone &&
         other.createdAt == createdAt &&
@@ -98,8 +116,11 @@ class UserModel {
   @override
   int get hashCode {
     return uid.hashCode ^
-        name.hashCode ^
+        firstName.hashCode ^
+        lastName.hashCode ^
+        dateOfBirth.hashCode ^
         email.hashCode ^
+        phone.hashCode ^
         createdAt.hashCode ^
         isActived.hashCode ^
         avatar.hashCode;

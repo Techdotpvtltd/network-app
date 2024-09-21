@@ -21,18 +21,14 @@ class AuthEventPerformLogin extends AuthEvent {
 
 /// Registering Event
 class AuthEventRegistering extends AuthEvent {
-  final String name;
   final String email;
   final String password;
   final String confirmPassword;
-  final String phoneNumber;
 
   AuthEventRegistering({
-    required this.name,
     required this.email,
     required this.password,
     required this.confirmPassword,
-    required this.phoneNumber,
   });
 }
 

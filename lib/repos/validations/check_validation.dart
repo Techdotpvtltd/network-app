@@ -17,16 +17,10 @@ class CheckVaidation {
   }
 
   static Future<void> onCreateUser({
-    String? name,
     String? password,
     String? confirmPassword,
     String? email,
-    String? phone,
   }) async {
-    if (name == null || name == "") {
-      throw AuthExceptionFullNameRequired();
-    }
-
     if (email == null || email == "") {
       throw AuthExceptionEmailRequired();
     }
@@ -49,9 +43,6 @@ class CheckVaidation {
 
     if (confirmPassword != password) {
       throw AuthExceptionConfirmPasswordDoesntMatching();
-    }
-    if (phone == "") {
-      throw AuthExceptionRequiredPhone();
     }
   }
 

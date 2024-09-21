@@ -60,8 +60,10 @@ class UserRepo {
   /// Create User Profile
   Future<void> create(
       {required String uid,
-      required String name,
-      required String phone,
+      String? firstName,
+      String? lastName,
+      DateTime? dateOfBirth,
+      String? phone,
       required String email}) async {
     try {
       if (uid == "") {
@@ -70,7 +72,9 @@ class UserRepo {
 
       final UserModel user = UserModel(
         uid: uid,
-        name: name,
+        firstName: lastName,
+        lastName: firstName,
+        dateOfBirth: dateOfBirth,
         email: email,
         createdAt: DateTime.now(),
         isActived: true,

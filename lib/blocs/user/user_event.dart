@@ -11,12 +11,16 @@ abstract class UserEvent {}
 
 /// Update Profile Event
 class UserEventUpdateProfile extends UserEvent {
-  final String? name;
+  final String? firstName;
+  final String? lastName;
+  final DateTime? dateOfBirth;
   final String? phone;
   final String? avatar;
 
   UserEventUpdateProfile({
-    this.name,
+    this.firstName,
+    this.lastName,
+    this.dateOfBirth,
     this.avatar,
     this.phone,
   });

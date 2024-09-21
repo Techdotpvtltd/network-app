@@ -41,31 +41,23 @@ class AuthRepo {
 
 //  RegisteredAUser ====================================
   Future<void> registeredUser({
-    required String name,
     required String email,
     required String password,
     required String confirmPassword,
-    required String phoneNumber,
   }) async {
     try {
       /// Make validation
       await CheckVaidation.onCreateUser(
-        name: name,
         email: email,
         password: password,
         confirmPassword: confirmPassword,
-        phone: phoneNumber,
       );
 
       // Create user After validation
       final UserCredential userCredential = await FirebaseAuthService()
           .registerUser(email: email, password: password);
-      await UserRepo().create(
-        uid: userCredential.user?.uid ?? "",
-        name: name,
-        email: email,
-        phone: phoneNumber,
-      );
+      await UserRepo()
+          .create(uid: userCredential.user?.uid ?? "", email: email);
       sendEmailVerifcationLink();
     } catch (e) {
       throw throwAppException(e: e);
@@ -135,8 +127,8 @@ class AuthRepo {
           if (userFetchFailureCount <= 1) {
             await UserRepo().create(
               uid: user.uid,
-              name: FirebaseAuth.instance.currentUser?.providerData.firstOrNull
-                      ?.displayName ??
+              firstName: FirebaseAuth.instance.currentUser?.providerData
+                      .firstOrNull?.displayName ??
                   FirebaseAuth.instance.currentUser?.displayName ??
                   "",
               email: user.email ?? "",

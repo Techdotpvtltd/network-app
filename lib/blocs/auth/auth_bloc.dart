@@ -92,11 +92,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
         try {
           await AuthRepo().registeredUser(
-            name: event.name,
             email: event.email,
             password: event.password,
             confirmPassword: event.confirmPassword,
-            phoneNumber: event.phoneNumber,
           );
           emit(AuthStateRegistered());
         } on AppException catch (e) {
