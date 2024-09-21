@@ -111,6 +111,7 @@ class CustomDialogs {
                 title: negativeTitle ?? "Cancel",
                 height: 44,
                 onlyBorder: true,
+                backgroundColor: AppTheme.primaryColor1,
                 onPressed: onNegativePressed ??
                     () {
                       Navigator.of(navKey.currentContext!).pop();
