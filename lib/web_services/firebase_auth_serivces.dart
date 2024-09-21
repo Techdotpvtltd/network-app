@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart' show kReleaseMode;
+// import 'package:flutter/foundation.dart' show kReleaseMode;
 
 class FirebaseAuthService {
   late FirebaseAuth _auth;
@@ -14,9 +14,7 @@ class FirebaseAuthService {
   }) async {
     final user = await _auth.createUserWithEmailAndPassword(
         email: email, password: password);
-    if (kReleaseMode) {
-      await _auth.currentUser?.sendEmailVerification();
-    }
+    await _auth.currentUser?.sendEmailVerification();
     return user;
   }
 
@@ -38,6 +36,7 @@ class FirebaseAuthService {
 
   Future<List<String>> fetchSignInMethodsForEmail(
       {required String withEmail}) async {
+    // ignore: deprecated_member_use
     return await _auth.fetchSignInMethodsForEmail(withEmail);
   }
 

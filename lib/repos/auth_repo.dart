@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import '../exceptions/app_exceptions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../exceptions/auth_exceptions.dart';
@@ -53,6 +55,7 @@ class AuthRepo {
       await FirebaseAuthService()
           .registerUser(email: email, password: password);
     } catch (e) {
+      log(e.toString(), name: "Registration", time: DateTime.now());
       throw throwAppException(e: e);
     }
   }
