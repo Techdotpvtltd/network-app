@@ -9,9 +9,10 @@ import 'package:concierge_networking/components/custom_app_bar.dart';
 import 'package:concierge_networking/components/custom_button.dart';
 import 'package:concierge_networking/components/custom_scaffold.dart';
 import 'package:concierge_networking/components/text_widget.dart';
-import 'package:concierge_networking/screens/main/home/drawer_screen.dart';
+import 'package:concierge_networking/screens/onboarding/login_screen.dart';
 import 'package:concierge_networking/utils/constants/app_theme.dart';
 import 'package:concierge_networking/utils/constants/constants.dart';
+import 'package:concierge_networking/utils/dialogs/snack_bar.dart';
 import 'package:concierge_networking/utils/extensions/navigation_service.dart';
 import 'package:flutter/material.dart';
 
@@ -119,7 +120,12 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry.
                           isPrivacy: false,
                           isComingFromAuth: widget.isComingFromAuth));
                     } else {
-                      NavigationService.offAll(const DrawerScreen());
+                      NavigationService.offAll(const LoginScreen());
+                      CustomSnack.warning(
+                        "Email Verification",
+                        "We've sent you an email verification link to email. Please verify your email by clicking the link before logging in.",
+                        durationnInSeconds: 5,
+                      );
                     }
                   } else {
                     NavigationService.back();
