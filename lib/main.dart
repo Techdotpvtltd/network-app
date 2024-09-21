@@ -5,6 +5,8 @@
 // Date:        19-08-24 12:26:24 -- Monday
 // Description:
 
+import 'package:concierge_networking/blocs/auth/auth_bloc.dart';
+import 'package:concierge_networking/blocs/user/user_bloc.dart';
 import 'package:concierge_networking/manager/app_bloc_observer.dart';
 import 'package:concierge_networking/screens/onboarding/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -27,12 +29,18 @@ class _App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      navigatorKey: navKey,
-      theme: ThemeData(
-        scaffoldBackgroundColor: Colors.white,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<AuthBloc>(create: (_) => AuthBloc()),
+        BlocProvider(create: (_) => UserBloc()),
+      ],
+      child: MaterialApp(
+        navigatorKey: navKey,
+        theme: ThemeData(
+          scaffoldBackgroundColor: Colors.white,
+        ),
+        home: const SplashScreen(),
       ),
-      home: const SplashScreen(),
     );
   }
 }
