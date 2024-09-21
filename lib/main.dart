@@ -5,10 +5,13 @@
 // Date:        19-08-24 12:26:24 -- Monday
 // Description:
 
+import 'package:concierge_networking/manager/app_bloc_observer.dart';
 import 'package:concierge_networking/screens/onboarding/splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-void main() {
+void main() async {
+  Bloc.observer = AppBlocObserver();
   runApp(const _App());
 }
 

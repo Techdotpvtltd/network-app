@@ -100,78 +100,84 @@ class _BottomBarScreenState extends State<BottomBarScreen>
             );
           }
         },
-        child: BottomBar(
-          barColor: AppTheme.primaryColor1,
-          barAlignment: Alignment.bottomCenter,
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(40),
-            topRight: Radius.circular(40),
-          ),
-          offset: 0,
-          width: SCREEN_WIDTH,
-          child: !isShow
-              ? const SizedBox()
-              : TabBar(
-                  controller: tabController,
-                  padding: const EdgeInsets.only(
-                    left: 30,
-                    bottom: 22,
-                    top: 22,
-                    right: 20,
-                  ),
-                  indicatorColor: Colors.white,
-                  indicatorWeight: 3,
-                  indicatorSize: TabBarIndicatorSize.tab,
-                  indicatorPadding: const EdgeInsets.symmetric(horizontal: 20),
-                  dividerColor: Colors.transparent,
-                  tabAlignment: TabAlignment.fill,
-                  labelPadding: EdgeInsets.zero,
-                  overlayColor:
-                      const WidgetStatePropertyAll(Colors.transparent),
-                  onTap: (value) {
-                    setState(() {
-                      selectedIndex = value;
-                    });
-                  },
-                  tabs: [
-                    for (int index = 0; index < items.length; index++)
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 8),
-                        child: SvgPicture.asset(
-                          items[index].icon,
-                          colorFilter: ColorFilter.mode(
-                            selectedIndex == index
-                                ? Colors.white
-                                : const Color(0xFFF9BBBD),
-                            BlendMode.srcIn,
+        child: Scaffold(
+          bottomNavigationBar: const SizedBox(),
+          body: BottomBar(
+            barColor: AppTheme.primaryColor1,
+            barAlignment: Alignment.bottomCenter,
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(40),
+              topRight: Radius.circular(40),
+            ),
+            offset: 0,
+            width: SCREEN_WIDTH,
+            child: !isShow
+                ? const SizedBox()
+                : TabBar(
+                    controller: tabController,
+                    padding: const EdgeInsets.only(
+                      left: 30,
+                      bottom: 22,
+                      top: 22,
+                      right: 20,
+                    ),
+                    indicatorColor: Colors.white,
+                    indicatorWeight: 3,
+                    indicatorSize: TabBarIndicatorSize.tab,
+                    indicatorPadding:
+                        const EdgeInsets.symmetric(horizontal: 20),
+                    dividerColor: Colors.transparent,
+                    tabAlignment: TabAlignment.fill,
+                    labelPadding: EdgeInsets.zero,
+                    overlayColor:
+                        const WidgetStatePropertyAll(Colors.transparent),
+                    onTap: (value) {
+                      setState(() {
+                        selectedIndex = value;
+                      });
+                    },
+                    tabs: [
+                      for (int index = 0; index < items.length; index++)
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 8),
+                          child: SvgPicture.asset(
+                            items[index].icon,
+                            colorFilter: ColorFilter.mode(
+                              selectedIndex == index
+                                  ? Colors.white
+                                  : const Color(0xFFF9BBBD),
+                              BlendMode.srcIn,
+                            ),
+                            width: 23,
+                            height: 23,
                           ),
-                          width: 23,
-                          height: 23,
                         ),
-                      ),
-                  ],
-                ),
-          body: (context, scrollController) {
-            if (selectedIndex == 0) {
-              return HomeScreen(scrollController: scrollController);
-            }
+                    ],
+                  ),
+            body: (context, scrollController) {
+              if (selectedIndex == 0) {
+                return HomeScreen(scrollController: scrollController);
+              }
 
-            if (selectedIndex == 1) {
-              return BookingScreen(
-                  scrollController: scrollController, isShowBackButton: false);
-            }
+              if (selectedIndex == 1) {
+                return BookingScreen(
+                    scrollController: scrollController,
+                    isShowBackButton: false);
+              }
 
-            if (selectedIndex == 2) {
-              return ChatScreen(
-                  scrollController: scrollController, isCameFromBottom: true);
-            }
+              if (selectedIndex == 2) {
+                return ChatScreen(
+                    scrollController: scrollController, isCameFromBottom: true);
+              }
 
-            if (selectedIndex == 3) {
-              return ProfileScreen(
-                  scrollController: scrollController, isShowBackButton: false);
-            }
-            return items[selectedIndex].child;
-          },
+              if (selectedIndex == 3) {
+                return ProfileScreen(
+                    scrollController: scrollController,
+                    isShowBackButton: false);
+              }
+              return items[selectedIndex].child;
+            },
+          ),
         ),
       ),
     );
