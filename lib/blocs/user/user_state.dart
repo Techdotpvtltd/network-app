@@ -43,9 +43,9 @@ class UserStateProfileUpdatingFailure extends UserState {
 }
 
 class UserStateProfileUpdated extends UserState {
-  final UserModel user;
+  final UserModel? user;
 
-  UserStateProfileUpdated({required this.user});
+  UserStateProfileUpdated({this.user});
 }
 
 // ===========================Find Users States================================
@@ -84,3 +84,17 @@ class UserStateFetchedSingle extends UserState {
 }
 
 class UserStateFetchedSingleEmpty extends UserState {}
+
+// ===========================Creating User States================================
+
+class UserStateCreating extends UserState {
+  UserStateCreating({super.isLoading = true});
+}
+
+class UserStateCreateFailure extends UserState {
+  final AppException exception;
+
+  UserStateCreateFailure({required this.exception});
+}
+
+class UserStateCreated extends UserState {}

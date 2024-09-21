@@ -1,8 +1,8 @@
+import '../../manager/app_manager.dart';
 import '/exceptions/auth_exceptions.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../exceptions/app_exceptions.dart';
-import '../../manager/app_manager.dart';
 import '../../models/user_model.dart';
 import '../../repos/user_repo.dart';
 import 'user_event.dart';
@@ -17,6 +17,19 @@ import 'user_state.dart';
 
 class UserBloc extends Bloc<UserEvent, UserState> {
   UserBloc() : super(UserStateInitial()) {
+    /// Create User
+    on<UserEventCreate>(
+      (event, emit) async {
+        try {
+          emit(UserStateCreating());
+          await UserRepo().create(email: event.email);
+          emit(UserStateCreated());
+        } on AppException catch (e) {
+          emit(UserStateCreateFailure(exception: e));
+        }
+      },
+    );
+
     /// OnUpdateProfile Event
     on<UserEventUpdateProfile>(
       (event, emit) async {
@@ -42,16 +55,12 @@ class UserBloc extends Bloc<UserEvent, UserState> {
             user = user.copyWith(firstName: event.firstName);
           }
 
-          if (event.lastName != null) {
-            user = user.copyWith(firstName: event.lastName);
-          }
-
           if (event.phone != null) {
             user = user.copyWith(phone: event.phone);
           }
 
-          if (event.dateOfBirth != null) {
-            user = user.copyWith(dateOfBirth: event.dateOfBirth);
+          if (event.dob != null) {
+            user = user.copyWith(dateOfBirth: event.dob!);
           }
 
           emit(UserStateProfileUpdating());

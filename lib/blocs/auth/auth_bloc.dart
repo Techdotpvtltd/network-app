@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../exceptions/data_exceptions.dart';
+import './/exceptions/data_exceptions.dart';
 
 import '../../exceptions/app_exceptions.dart';
 import '../../exceptions/auth_exceptions.dart';
@@ -92,10 +92,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
         try {
           await AuthRepo().registeredUser(
-            email: event.email,
-            password: event.password,
-            confirmPassword: event.confirmPassword,
-          );
+              email: event.email,
+              password: event.password,
+              confirmPassword: event.confirmPassword);
           emit(AuthStateRegistered());
         } on AppException catch (e) {
           emit(AuthStateRegisterFailure(exception: e));
