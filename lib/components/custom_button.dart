@@ -68,12 +68,11 @@ class CustomButton extends StatelessWidget {
           ),
         ),
         child: isLoading
-            ? Center(
-                child: CircularProgressIndicator(
-                  color: (onlyBorder || !isEnabled)
-                      ? AppTheme.primaryColor1
-                      : Colors.white,
-                ),
+            ? CircularProgressIndicator(
+                strokeCap: StrokeCap.round,
+                color: (onlyBorder || !isEnabled)
+                    ? AppTheme.primaryColor1
+                    : Colors.white,
               )
             : Text(
                 title,
