@@ -149,9 +149,9 @@ class AuthExceptionRequiredPhone extends AuthException {
 }
 
 //  Agent Required Required  ====================================
-class AuthExceptionRequiredAgent extends AuthException {
-  AuthExceptionRequiredAgent(
-      {super.message = "Please select agent.", super.errorCode = 1022});
+class AuthExceptionRequiredGender extends AuthException {
+  AuthExceptionRequiredGender(
+      {super.message = "Please select gender.", super.errorCode = 1022});
 }
 
 //  Address Required Required  ====================================

@@ -24,13 +24,13 @@ class DataExceptionInvalidArgument extends DataException {
   DataExceptionInvalidArgument({super.message = "Invalid request."});
 }
 
+class DataExceptionAvatarRequired extends DataException {
+  DataExceptionAvatarRequired({super.message = "Avatar Required"});
+}
+
 /// Some requested document was not found.
 class DataExceptionNotFound extends DataException {
   DataExceptionNotFound({super.message = "Requested data was not found."});
-}
-
-class DataExceptionModelPrototype<T> extends DataException {
-  DataExceptionModelPrototype({required super.message});
 }
 
 /// The service is currently unavailable.
