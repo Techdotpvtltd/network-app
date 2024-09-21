@@ -20,9 +20,16 @@ import 'package:concierge_networking/screens/main/profile/edit_profile.dart';
 import 'package:concierge_networking/screens/onboarding/forgot_screen.dart';
 import 'package:concierge_networking/utils/constants/app_assets.dart';
 import 'package:concierge_networking/utils/constants/constants.dart';
+import 'package:concierge_networking/utils/extensions/date_extension.dart';
 import 'package:concierge_networking/utils/extensions/navigation_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+
+import '../../../blocs/user/user_bloc.dart';
+import '../../../blocs/user/user_state.dart';
+import '../../../manager/app_manager.dart';
+import '../../../models/user_model.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen(
@@ -34,158 +41,183 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  UserModel? user = AppManager.currentUser;
+
   @override
   Widget build(BuildContext context) {
-    return CustomScaffold(
-      backgroundImagePath: AppAssets.scaffoldBG2,
-      appBar: customAppBar(title: "Profile", showBack: widget.isShowBackButton),
-      body: SizedBox(
-        width: SCREEN_WIDTH,
-        height: SCREEN_HEIGHT,
-        child: SingleChildScrollView(
-          physics: const AlwaysScrollableScrollPhysics(),
-          controller: widget.scrollController,
-          padding:
-              const EdgeInsets.only(left: 27, right: 27, top: 16, bottom: 40),
-          child: Column(
-            children: [
-              const AvatarWidget(
-                width: 102,
-                height: 102,
-              ),
-              gapH10,
-              const PrimaryTitleText(
-                "Ali Akbar",
-                size: 14,
-              ),
-              const PrimaryTitleText(
-                "abc234@gmai.com",
-                size: 12,
-                weight: FontWeight.w400,
-              ),
-              gapH26,
+    return MultiBlocListener(
+      listeners: [
+        /// UserBloc
+        BlocListener<UserBloc, UserState>(
+          listener: (ctx, state) {
+            if (state is UserStateProfileUpdated) {
+              setState(() {
+                user = state.user;
+              });
+            }
+          },
+        )
+      ],
+      child: CustomScaffold(
+        backgroundImagePath: AppAssets.scaffoldBG2,
+        appBar:
+            customAppBar(title: "Profile", showBack: widget.isShowBackButton),
+        body: SizedBox(
+          width: SCREEN_WIDTH,
+          height: SCREEN_HEIGHT,
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            controller: widget.scrollController,
+            padding:
+                const EdgeInsets.only(left: 27, right: 27, top: 16, bottom: 40),
+            child: Column(
+              children: [
+                AvatarWidget(
+                  width: 102,
+                  height: 102,
+                  avatarUrl: user?.avatar,
+                  placeholderChar:
+                      user?.firstName?.characters.firstOrNull ?? "U",
+                ),
+                gapH10,
+                if (user?.firstName != null || user?.lastName != null)
+                  PrimaryTitleText(
+                    "${user?.firstName ?? ""} ${user?.lastName ?? ""}",
+                    size: 14,
+                  ),
+                PrimaryTitleText(
+                  user?.email ?? "-",
+                  size: 12,
+                  weight: FontWeight.w400,
+                ),
+                gapH26,
 
-              /// Detail Card
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 30, vertical: 18),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: const BorderRadius.all(Radius.circular(20)),
-                  boxShadow: [
-                    BoxShadow(
-                      offset: const Offset(0, 4),
-                      blurRadius: 30,
-                      color: Colors.black.withOpacity(0.10),
-                    ),
-                  ],
+                /// Detail Card
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 30, vertical: 18),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: const BorderRadius.all(Radius.circular(20)),
+                    boxShadow: [
+                      BoxShadow(
+                        offset: const Offset(0, 4),
+                        blurRadius: 30,
+                        color: Colors.black.withOpacity(0.10),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const PrimaryText(
+                                "Date of Birth:",
+                                color: Color(0xFF444444),
+                              ),
+                              PrimaryText(
+                                user?.dateOfBirth
+                                        ?.dateToString("dd MMMM yyyy") ??
+                                    "-",
+                                weight: FontWeight.w500,
+                                color: const Color(0xFF444444),
+                              ),
+                            ],
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const PrimaryText(
+                                "Number:",
+                                color: Color(0xFF444444),
+                              ),
+                              PrimaryText(
+                                user?.phone ?? "-",
+                                weight: FontWeight.w500,
+                                color: const Color(0xFF444444),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      gapH16,
+                      CustomButton(
+                        title: "Edit Profile",
+                        onPressed: () {
+                          NavigationService.go(const EditProfile());
+                        },
+                        isSmallText: true,
+                        height: 39,
+                        backgroundColor: const Color(0xFF444444),
+                      )
+                    ],
+                  ),
                 ),
-                child: Column(
-                  children: [
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            PrimaryText(
-                              "Date of Birth:",
-                              color: Color(0xFF444444),
-                            ),
-                            PrimaryText(
-                              "26 March 2000",
-                              weight: FontWeight.w500,
-                              color: Color(0xFF444444),
-                            ),
-                          ],
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            PrimaryText(
-                              "Number:",
-                              color: Color(0xFF444444),
-                            ),
-                            PrimaryText(
-                              "+92 123456789",
-                              weight: FontWeight.w500,
-                              color: Color(0xFF444444),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    gapH16,
-                    CustomButton(
-                      title: "Edit Profile",
-                      onPressed: () {
-                        NavigationService.go(const EditProfile());
-                      },
-                      isSmallText: true,
-                      height: 39,
-                      backgroundColor: const Color(0xFF444444),
-                    )
-                  ],
+                gapH26,
+                _ButtonWidget(
+                  "Bookings",
+                  iconPath: AppAssets.backupIcon,
+                  onPressed: () {
+                    NavigationService.go(
+                        const BookingScreen(isShowBackButton: true));
+                  },
                 ),
-              ),
-              gapH26,
-              _ButtonWidget(
-                "Bookings",
-                iconPath: AppAssets.backupIcon,
-                onPressed: () {
-                  NavigationService.go(
-                      const BookingScreen(isShowBackButton: true));
-                },
-              ),
-              gapH16,
-              _ButtonWidget(
-                "Change password",
-                iconPath: AppAssets.lockIcon,
-                onPressed: () {
-                  NavigationService.go(const ForgotScreen());
-                },
-              ),
-              gapH16,
-              _ButtonWidget(
-                "Support",
-                iconPath: AppAssets.phoneIcon,
-                onPressed: () {
-                  NavigationService.go(const SupportScreen());
-                },
-              ),
-              gapH16,
-              _ButtonWidget(
-                "Subscription",
-                iconPath: AppAssets.subscriptionIcon,
-                onPressed: () {
-                  NavigationService.go(const SubscriptionScreen());
-                },
-              ),
-              gapH16,
-              _ButtonWidget(
-                "Privacy policy",
-                iconPath: AppAssets.privacyIcon,
-                onPressed: () {
-                  NavigationService.go(const AgreementScreen(isPrivacy: true));
-                },
-              ),
-              gapH16,
-              _ButtonWidget(
-                "Terms  & Conditions",
-                iconPath: AppAssets.noteIcon,
-                onPressed: () {
-                  NavigationService.go(const AgreementScreen(isPrivacy: false));
-                },
-              ),
-              gapH16,
-              _ButtonWidget(
-                "Refer Friends",
-                iconPath: AppAssets.chainIcon,
-                onPressed: () {
-                  NavigationService.go(const ReferFriendScreen());
-                },
-              ),
-            ],
+                gapH16,
+                _ButtonWidget(
+                  "Change password",
+                  iconPath: AppAssets.lockIcon,
+                  onPressed: () {
+                    NavigationService.go(const ForgotScreen());
+                  },
+                ),
+                gapH16,
+                _ButtonWidget(
+                  "Support",
+                  iconPath: AppAssets.phoneIcon,
+                  onPressed: () {
+                    NavigationService.go(const SupportScreen());
+                  },
+                ),
+                gapH16,
+                _ButtonWidget(
+                  "Subscription",
+                  iconPath: AppAssets.subscriptionIcon,
+                  onPressed: () {
+                    NavigationService.go(const SubscriptionScreen());
+                  },
+                ),
+                gapH16,
+                _ButtonWidget(
+                  "Privacy policy",
+                  iconPath: AppAssets.privacyIcon,
+                  onPressed: () {
+                    NavigationService.go(
+                        const AgreementScreen(isPrivacy: true));
+                  },
+                ),
+                gapH16,
+                _ButtonWidget(
+                  "Terms  & Conditions",
+                  iconPath: AppAssets.noteIcon,
+                  onPressed: () {
+                    NavigationService.go(
+                        const AgreementScreen(isPrivacy: false));
+                  },
+                ),
+                gapH16,
+                _ButtonWidget(
+                  "Refer Friends",
+                  iconPath: AppAssets.chainIcon,
+                  onPressed: () {
+                    NavigationService.go(const ReferFriendScreen());
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),

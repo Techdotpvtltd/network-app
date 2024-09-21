@@ -55,6 +55,9 @@ class UserBloc extends Bloc<UserEvent, UserState> {
             user = user.copyWith(firstName: event.firstName);
           }
 
+          if (event.lastName != null) {
+            user = user.copyWith(lastName: event.lastName);
+          }
           if (event.phone != null) {
             user = user.copyWith(phone: event.phone);
           }

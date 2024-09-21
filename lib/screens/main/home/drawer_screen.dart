@@ -20,10 +20,14 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import '../../../blocs/drawer/drawer_cubit.dart';
 import '../../../blocs/drawer/drawer_state.dart';
+import '../../../blocs/user/user_bloc.dart';
+import '../../../blocs/user/user_state.dart';
 import '../../../components/avatar_widget.dart';
 import '../../../components/custom_ink_well.dart';
 import '../../../components/custom_paddings.dart';
 import '../../../components/text_widget.dart';
+import '../../../manager/app_manager.dart';
+import '../../../models/user_model.dart';
 import '../../../screens/onboarding/forgot_screen.dart';
 import '../../../screens/onboarding/splash_screen.dart';
 import '../../../utils/constants/app_assets.dart';
@@ -126,135 +130,156 @@ class _DrawerMenu extends StatefulWidget {
 
 class __DrawerMenuState extends State<_DrawerMenu> {
   int selectedIndex = 0;
+  UserModel? user = AppManager.currentUser;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: AppTheme.primaryColor1,
-      body: SafeArea(
-        child: Container(
-          color: AppTheme.primaryColor1,
-          child: CustomPadding(
-            top: 5,
-            left: 40,
-            right: 20,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                /// Top Navigation bar
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CircleButton(
-                      onPressed: () {
-                        context.read<DrawerCubit>().closeDrawer();
-                      },
-                      backgroundColor: Colors.black.withOpacity(0.08),
-                      icon: const Icon(
-                        Icons.close,
+    return MultiBlocListener(
+      listeners: [
+        /// UserBloc
+        BlocListener<UserBloc, UserState>(
+          listener: (ctx, state) {
+            if (state is UserStateProfileUpdated) {
+              setState(() {
+                user = state.user;
+              });
+            }
+          },
+        )
+      ],
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        backgroundColor: AppTheme.primaryColor1,
+        body: SafeArea(
+          child: Container(
+            color: AppTheme.primaryColor1,
+            child: CustomPadding(
+              top: 5,
+              left: 40,
+              right: 20,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  /// Top Navigation bar
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CircleButton(
+                        onPressed: () {
+                          context.read<DrawerCubit>().closeDrawer();
+                        },
+                        backgroundColor: Colors.black.withOpacity(0.08),
+                        icon: const Icon(
+                          Icons.close,
+                          color: Colors.white,
+                          size: 32,
+                        ),
+                      ),
+                      Image.asset(
+                        AppAssets.logoIcon,
+                        width: 90,
                         color: Colors.white,
-                        size: 32,
-                      ),
-                    ),
-                    Image.asset(
-                      AppAssets.logoIcon,
-                      width: 90,
-                      color: Colors.white,
-                    )
-                  ],
-                ),
-
-                gapH50,
-
-                /// Avatar
-                CustomInkWell(
-                  semanticLabel: "Profile View Button",
-                  onTap: () {
-                    NavigationService.go(const ProfileScreen());
-                  },
-                  child: Container(
-                    height: 76,
-                    width: 76,
-                    padding: const EdgeInsets.all(2),
-                    decoration: BoxDecoration(
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(100)),
-                      border: Border.all(color: Colors.white, width: 2),
-                    ),
-                    child: const AvatarWidget(backgroundColor: Colors.black),
+                      )
+                    ],
                   ),
-                ),
-                gapH6,
-                const PrimaryTitleText(
-                  "Ali Akbar",
-                  maxLines: 2,
-                  color: Colors.white,
-                  size: 16,
-                  weight: FontWeight.w700,
-                ),
 
-                /// Items
-                gapH30,
-                for (int index = 0; index < items.length; index++)
-                  Builder(builder: (_) {
-                    final item = items[index];
-                    final bool isSelected = index == selectedIndex;
+                  gapH50,
 
-                    return CustomContainer(
-                      onPressed: () {
-                        context.read<DrawerCubit>().closeDrawer();
-                        context.read<DrawerCubit>().onMenuItemClicked(index);
-                      },
-                      margin: const EdgeInsets.symmetric(vertical: 6),
-                      borderRadius: const BorderRadius.all(Radius.circular(50)),
-                      padding: const EdgeInsets.only(
-                        left: 18,
-                        top: 14,
-                        bottom: 14,
-                        right: 30,
+                  /// Avatar
+                  CustomInkWell(
+                    semanticLabel: "Profile View Button",
+                    onTap: () {
+                      NavigationService.go(const ProfileScreen());
+                    },
+                    child: Container(
+                      height: 76,
+                      width: 76,
+                      padding: const EdgeInsets.all(2),
+                      decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(100)),
+                        border: Border.all(color: Colors.white, width: 2),
                       ),
-                      color: isSelected ? Colors.white : Colors.transparent,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          SvgPicture.asset(
-                            item.icon,
-                            width: 15,
-                            height: 15,
-                            colorFilter: ColorFilter.mode(
-                              isSelected
-                                  ? AppTheme.primaryColor1
-                                  : Colors.white,
-                              BlendMode.srcIn,
-                            ),
-                          ),
-                          gapW10,
-                          Flexible(
-                            child: PrimaryTitleText(
-                              item.title,
-                              size: 14,
-                              color: isSelected
-                                  ? AppTheme.primaryColor1
-                                  : Colors.white,
-                            ),
-                          ),
-                        ],
+                      child: AvatarWidget(
+                        backgroundColor: Colors.black,
+                        placeholderChar:
+                            user?.firstName?.characters.firstOrNull ?? "U",
+                        avatarUrl: user?.avatar,
                       ),
-                    );
-                  }),
-                // Logout Button
-                const Spacer(),
-                CustomButton(
-                  backgroundColor: Colors.black,
-                  title: "Logout",
-                  onPressed: () {
-                    NavigationService.offAll(const SplashScreen());
-                  },
-                  isSmallText: true,
-                ),
-                gapH20,
-              ],
+                    ),
+                  ),
+                  gapH6,
+                  PrimaryTitleText(
+                    "${user?.firstName ?? ""} ${user?.lastName ?? ""}",
+                    maxLines: 2,
+                    color: Colors.white,
+                    size: 16,
+                    weight: FontWeight.w700,
+                  ),
+
+                  /// Items
+                  gapH30,
+                  for (int index = 0; index < items.length; index++)
+                    Builder(builder: (_) {
+                      final item = items[index];
+                      final bool isSelected = index == selectedIndex;
+
+                      return CustomContainer(
+                        onPressed: () {
+                          context.read<DrawerCubit>().closeDrawer();
+                          context.read<DrawerCubit>().onMenuItemClicked(index);
+                        },
+                        margin: const EdgeInsets.symmetric(vertical: 6),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(50)),
+                        padding: const EdgeInsets.only(
+                          left: 18,
+                          top: 14,
+                          bottom: 14,
+                          right: 30,
+                        ),
+                        color: isSelected ? Colors.white : Colors.transparent,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SvgPicture.asset(
+                              item.icon,
+                              width: 15,
+                              height: 15,
+                              colorFilter: ColorFilter.mode(
+                                isSelected
+                                    ? AppTheme.primaryColor1
+                                    : Colors.white,
+                                BlendMode.srcIn,
+                              ),
+                            ),
+                            gapW10,
+                            Flexible(
+                              child: PrimaryTitleText(
+                                item.title,
+                                size: 14,
+                                color: isSelected
+                                    ? AppTheme.primaryColor1
+                                    : Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    }),
+                  // Logout Button
+                  const Spacer(),
+                  CustomButton(
+                    backgroundColor: Colors.black,
+                    title: "Logout",
+                    onPressed: () {
+                      NavigationService.offAll(const SplashScreen());
+                    },
+                    isSmallText: true,
+                  ),
+                  gapH20,
+                ],
+              ),
             ),
           ),
         ),
