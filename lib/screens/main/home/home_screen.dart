@@ -5,11 +5,16 @@
 // Date:        19-08-24 17:53:34 -- Monday
 // Description:
 
+import 'package:concierge_networking/blocs/data_fetcher/data_fetcher_bloc.dart';
+import 'package:concierge_networking/blocs/data_fetcher/data_fetcher_event.dart';
+import 'package:concierge_networking/blocs/data_fetcher/data_fetcher_state.dart';
 import 'package:concierge_networking/blocs/drawer/drawer_cubit.dart';
 import 'package:concierge_networking/components/circle_button.dart';
 import 'package:concierge_networking/components/custom_button.dart';
 import 'package:concierge_networking/components/custom_container.dart';
 import 'package:concierge_networking/components/custom_title_textfield.dart';
+import 'package:concierge_networking/manager/cache/category_cache.dart';
+import 'package:concierge_networking/models/category_model.dart';
 import 'package:concierge_networking/screens/main/chat/chat_screen.dart';
 import 'package:concierge_networking/screens/main/components/content_widget.dart';
 import 'package:concierge_networking/screens/main/components/gradient_image_widget.dart';
@@ -19,6 +24,7 @@ import 'package:concierge_networking/screens/main/profile/profile_screen.dart';
 import 'package:concierge_networking/utils/constants/app_assets.dart';
 import 'package:concierge_networking/utils/constants/constants.dart';
 import 'package:concierge_networking/utils/extensions/navigation_service.dart';
+import 'package:concierge_networking/utils/extensions/string_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -42,11 +48,41 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   UserModel? user = AppManager.currentUser;
+  bool isLoading = false;
+
+  List<CategoryModel> categories = CategoryCache().categories.take(6).toList();
+
+  void triggerFetchDataEvent() {
+    context.read<DataFetcherBloc>().add(DataFetcherEventFetch());
+  }
+
+  @override
+  void initState() {
+    triggerFetchDataEvent();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocListener(
       listeners: [
+        BlocListener<DataFetcherBloc, DataFetcherState>(
+          listener: (ctx, state) {
+            if (state is DataFetcherStateFetching ||
+                state is DataFetcherStateFetchFailure ||
+                state is DataFetcherStateFetched) {
+              setState(() {
+                isLoading = state.isLoading;
+              });
+              if (state is DataFetcherStateFetched) {
+                setState(() {
+                  categories = CategoryCache().categories.take(6).toList();
+                });
+              }
+            }
+          },
+        ),
+
         /// UserBloc
         BlocListener<UserBloc, UserState>(
           listener: (ctx, state) {
@@ -172,131 +208,144 @@ class _HomeScreenState extends State<HomeScreen> {
               gapH16,
               const SearchTextField(),
               gapH22,
-              HomeHeadingWidget(
-                title: "Services Categories",
-                onPressedAll: () {},
-                child: GridView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: 6,
-                  shrinkWrap: true,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    mainAxisSpacing: 10,
-                    crossAxisSpacing: 4,
-                  ),
-                  itemBuilder: (ctx, index) {
-                    return const GradientImageWidget(
-                      coverUrl:
-                          "https://imageio.forbes.com/specials-images/imageserve/5e56f223d378190007f46149/A-management-consulting-career--How-to-build-a-career-as-a-management-consultant-/960x0.jpg?format=jpg&width=960",
-                      child: Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Padding(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 5, vertical: 8),
-                          child: PrimaryText(
-                            "Category",
-                            align: TextAlign.center,
-                            size: 14,
-                            weight: FontWeight.w600,
-                            color: Colors.white,
-                            maxLines: 2,
+              isLoading
+                  ? const CircularProgressIndicator()
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Category Widgets
+                        if (categories.isNotEmpty)
+                          HomeHeadingWidget(
+                            title: "Services Categories",
+                            onPressedAll: () {},
+                            child: GridView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: categories.length,
+                              shrinkWrap: true,
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 3,
+                                mainAxisSpacing: 10,
+                                crossAxisSpacing: 4,
+                              ),
+                              itemBuilder: (ctx, index) {
+                                final category = categories[index];
+                                return GradientImageWidget(
+                                  coverUrl: category.cover,
+                                  child: Align(
+                                    alignment: Alignment.bottomCenter,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 5, vertical: 8),
+                                      child: PrimaryText(
+                                        category.title.firstCapitalize(),
+                                        align: TextAlign.center,
+                                        size: 14,
+                                        weight: FontWeight.w600,
+                                        color: Colors.white,
+                                        maxLines: 2,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        if (categories.isNotEmpty) gapH22,
+                        HomeHeadingWidget(
+                          title: "Popular Service",
+                          onPressedAll: () {},
+                          child: SizedBox(
+                            width: SCREEN_WIDTH,
+                            height: 190,
+                            child: ListView.builder(
+                              itemCount: 3,
+                              scrollDirection: Axis.horizontal,
+                              shrinkWrap: true,
+                              itemBuilder: (_, index) {
+                                return Padding(
+                                  padding: const EdgeInsets.only(right: 12),
+                                  child: ContentWidget(
+                                    onPressed: () {
+                                      NavigationService.go(
+                                          const DetailScreen());
+                                    },
+                                    width: 180,
+                                    coverUrl:
+                                        "https://elite-cv.com/wp-content/uploads/2021/08/consultant.jpg",
+                                    child: const Column(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        PrimaryText(
+                                          "Category",
+                                          size: 14,
+                                          weight: FontWeight.w600,
+                                          color: Colors.white,
+                                          maxLines: 2,
+                                        ),
+                                        PrimaryText(
+                                          "Providing deep analysis and actionable insights to help businesses.",
+                                          size: 8,
+                                          weight: FontWeight.w400,
+                                          color: Colors.white,
+                                          maxLines: 4,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
                           ),
                         ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-              gapH22,
-              HomeHeadingWidget(
-                title: "Popular Service",
-                onPressedAll: () {},
-                child: SizedBox(
-                  width: SCREEN_WIDTH,
-                  height: 190,
-                  child: ListView.builder(
-                    itemCount: 3,
-                    scrollDirection: Axis.horizontal,
-                    shrinkWrap: true,
-                    itemBuilder: (_, index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(right: 12),
-                        child: ContentWidget(
-                          onPressed: () {
-                            NavigationService.go(const DetailScreen());
-                          },
-                          width: 180,
-                          coverUrl:
-                              "https://elite-cv.com/wp-content/uploads/2021/08/consultant.jpg",
-                          child: const Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              PrimaryText(
-                                "Category",
-                                size: 14,
-                                weight: FontWeight.w600,
-                                color: Colors.white,
-                                maxLines: 2,
-                              ),
-                              PrimaryText(
-                                "Providing deep analysis and actionable insights to help businesses.",
-                                size: 8,
-                                weight: FontWeight.w400,
-                                color: Colors.white,
-                                maxLines: 4,
-                              ),
-                            ],
+                        gapH22,
+                        HomeHeadingWidget(
+                          title: "News or Announcements",
+                          child: SizedBox(
+                            width: SCREEN_WIDTH,
+                            height: 141,
+                            child: ListView.builder(
+                              itemCount: 3,
+                              scrollDirection: Axis.horizontal,
+                              shrinkWrap: true,
+                              itemBuilder: (_, index) {
+                                return Padding(
+                                  padding: const EdgeInsets.only(right: 12),
+                                  child: ContentWidget(
+                                    width: SCREEN_WIDTH * 0.61,
+                                    coverUrl:
+                                        "https://www.huntersure.com/wp-content/uploads/2020/06/Consultants.jpg",
+                                    child: const Column(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        PrimaryText(
+                                          "Category",
+                                          size: 14,
+                                          weight: FontWeight.w600,
+                                          color: Colors.white,
+                                          maxLines: 2,
+                                        ),
+                                        PrimaryText(
+                                          "Providing deep analysis and actionable insights to help businesses.",
+                                          size: 8,
+                                          weight: FontWeight.w500,
+                                          color: Colors.white,
+                                          maxLines: 4,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
                           ),
                         ),
-                      );
-                    },
-                  ),
-                ),
-              ),
-              gapH22,
-              HomeHeadingWidget(
-                title: "News or Announcements",
-                child: SizedBox(
-                  width: SCREEN_WIDTH,
-                  height: 141,
-                  child: ListView.builder(
-                    itemCount: 3,
-                    scrollDirection: Axis.horizontal,
-                    shrinkWrap: true,
-                    itemBuilder: (_, index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(right: 12),
-                        child: ContentWidget(
-                          width: SCREEN_WIDTH * 0.61,
-                          coverUrl:
-                              "https://www.huntersure.com/wp-content/uploads/2020/06/Consultants.jpg",
-                          child: const Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              PrimaryText(
-                                "Category",
-                                size: 14,
-                                weight: FontWeight.w600,
-                                color: Colors.white,
-                                maxLines: 2,
-                              ),
-                              PrimaryText(
-                                "Providing deep analysis and actionable insights to help businesses.",
-                                size: 8,
-                                weight: FontWeight.w500,
-                                color: Colors.white,
-                                maxLines: 4,
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ),
+                      ],
+                    ),
             ],
           ),
         ),

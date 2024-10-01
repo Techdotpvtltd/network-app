@@ -11,10 +11,7 @@ import 'package:concierge_networking/exceptions/app_exceptions.dart';
 import 'package:concierge_networking/repos/category/category_repo_impl.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../manager/cache/category_cache.dart';
-import '../category/category_state.dart';
-
-class DataFetcherBloc extends Bloc {
+class DataFetcherBloc extends Bloc<DataFetcherEvent, DataFetcherState> {
   DataFetcherBloc() : super(DataFetcherStateInitial()) {
     // on Fetch All
     on<DataFetcherEventFetch>(
@@ -27,7 +24,6 @@ class DataFetcherBloc extends Bloc {
             ],
           );
           emit(DataFetcherStateFetched());
-          emit(CategoryStateFetched(categories: CategoryCache().categories));
         } on AppException catch (e) {
           emit(DataFetcherStateFetchFailure(exception: e));
         }
