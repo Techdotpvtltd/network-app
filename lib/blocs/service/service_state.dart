@@ -5,6 +5,8 @@
 // Date:        10-09-24 14:00:24 -- Tuesday
 // Description:
 
+import 'package:concierge_networking/models/service_model.dart';
+
 import '../../exceptions/app_exceptions.dart';
 
 abstract class ServiceState {
@@ -26,4 +28,8 @@ class ServiceStateFetchFailure extends ServiceState {
   ServiceStateFetchFailure({required this.exception});
 }
 
-class ServiceStateFetched extends ServiceState {}
+class ServiceStateFetched extends ServiceState {
+  final List<ServiceModel> services;
+
+  ServiceStateFetched({required this.services});
+}

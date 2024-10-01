@@ -6,6 +6,8 @@
 // Description:
 
 import 'package:concierge_networking/components/custom_app_bar.dart';
+import 'package:concierge_networking/models/category_model.dart';
+import 'package:concierge_networking/utils/extensions/string_extension.dart';
 import 'package:flutter/material.dart';
 
 import '../../../components/custom_title_textfield.dart';
@@ -15,8 +17,8 @@ import '../components/content_widget.dart';
 import 'detail_screen.dart';
 
 class ServicesScreen extends StatefulWidget {
-  const ServicesScreen({super.key});
-
+  const ServicesScreen({super.key, required this.category});
+  final CategoryModel category;
   @override
   State<ServicesScreen> createState() => _ServicesScreenState();
 }
@@ -25,7 +27,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar(title: "Services"),
+      appBar: customAppBar(title: widget.category.title.firstCapitalize()),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 18),
         child: Column(

@@ -25,7 +25,7 @@ class ServiceRepo implements ServiceRepoInterface {
           QueryModel(
               field: 'categoryId', value: categoryId, type: QueryType.isEqual),
           QueryModel(field: "title", value: false, type: QueryType.orderBy),
-          QueryModel(field: "", value: 15, type: QueryType.limit),
+          QueryModel(field: "", value: 30, type: QueryType.limit),
         ],
       );
       final List<ServiceModel> services =

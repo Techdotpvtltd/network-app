@@ -67,7 +67,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
                         height: 160,
                         child: GradientImageWidget(
                           onPressed: () {
-                            NavigationService.go(const ServicesScreen());
+                            NavigationService.go(
+                                ServicesScreen(category: categories[index]));
                           },
                           coverUrl: categories[index].cover,
                           child: Center(

@@ -39,6 +39,7 @@ import '../../../manager/app_manager.dart';
 import '../../../models/user_model.dart';
 import '../../../utils/constants/app_theme.dart';
 import '../../../utils/dialogs/snack_bar.dart';
+import 'services_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key, required this.scrollController});
@@ -234,6 +235,10 @@ class _HomeScreenState extends State<HomeScreen> {
                               itemBuilder: (ctx, index) {
                                 final category = categories[index];
                                 return GradientImageWidget(
+                                  onPressed: () {
+                                    NavigationService.go(
+                                        ServicesScreen(category: category));
+                                  },
                                   coverUrl: category.cover,
                                   child: Align(
                                     alignment: Alignment.bottomCenter,

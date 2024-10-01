@@ -18,8 +18,9 @@ class ServiceBloc extends Bloc<ServiceEvent, ServiceState> {
       (event, emit) async {
         try {
           emit(ServiceStateFetching());
-          await ServiceRepo().fetchAll(categoryId: event.categoryId);
-          emit(ServiceStateFetched());
+          final services =
+              await ServiceRepo().fetchAll(categoryId: event.categoryId);
+          emit(ServiceStateFetched(services: services));
         } on AppException catch (e) {
           emit(ServiceStateFetchFailure(exception: e));
         }
