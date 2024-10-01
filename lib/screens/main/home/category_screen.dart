@@ -10,6 +10,8 @@ import 'package:concierge_networking/blocs/category/category_state.dart';
 import 'package:concierge_networking/components/custom_app_bar.dart';
 import 'package:concierge_networking/manager/cache/category_cache.dart';
 import 'package:concierge_networking/models/category_model.dart';
+import 'package:concierge_networking/screens/main/home/services_screen.dart';
+import 'package:concierge_networking/utils/extensions/navigation_service.dart';
 import 'package:concierge_networking/utils/extensions/string_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -53,7 +55,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 18),
           child: Column(
             children: [
-              const SearchTextField(),
+              const SearchTextField(hintText: "Search Categories"),
               Expanded(
                 child: ListView.builder(
                   itemCount: categories.length,
@@ -64,6 +66,9 @@ class _CategoryScreenState extends State<CategoryScreen> {
                       child: SizedBox(
                         height: 160,
                         child: GradientImageWidget(
+                          onPressed: () {
+                            NavigationService.go(const ServicesScreen());
+                          },
                           coverUrl: categories[index].cover,
                           child: Center(
                             child: PrimaryText(
