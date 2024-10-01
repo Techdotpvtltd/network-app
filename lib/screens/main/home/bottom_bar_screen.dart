@@ -65,7 +65,6 @@ class _BottomBarScreenState extends State<BottomBarScreen>
   }
 
   @override
-  @override
   Widget build(BuildContext context) {
     return BlocProvider<BottomBarCubit>(
       create: (context) => BottomBarCubit(),
