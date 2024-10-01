@@ -275,8 +275,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   padding: const EdgeInsets.only(right: 12),
                                   child: ContentWidget(
                                     onPressed: () {
-                                      NavigationService.go(
-                                          const DetailScreen());
+                                      // NavigationService.go(
+                                      //      DetailScreen(service: service));
                                     },
                                     width: 180,
                                     coverUrl:

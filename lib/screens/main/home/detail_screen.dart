@@ -10,6 +10,7 @@ import 'package:concierge_networking/components/custom_app_bar.dart';
 import 'package:concierge_networking/components/custom_container.dart';
 import 'package:concierge_networking/components/custom_ink_well.dart';
 import 'package:concierge_networking/components/text_widget.dart';
+import 'package:concierge_networking/models/service_model.dart';
 import 'package:concierge_networking/screens/main/chat/chat_screen.dart';
 import 'package:concierge_networking/utils/constants/app_assets.dart';
 import 'package:concierge_networking/utils/constants/constants.dart';
@@ -21,21 +22,18 @@ import '../../../components/custom_network_image.dart';
 import '../../../utils/constants/app_theme.dart';
 
 class DetailScreen extends StatefulWidget {
-  const DetailScreen({super.key});
-
+  const DetailScreen({super.key, required this.service});
+  final ServiceModel service;
   @override
   State<DetailScreen> createState() => _DetailScreenState();
 }
 
 class _DetailScreenState extends State<DetailScreen> {
   final PageController pageController = PageController();
-
+  late final ServiceModel service = widget.service;
   int currentPage = 0;
-  final items = [
-    "https://economics.illinois.edu/sites/default/files/inline-images/consultant_orig.jpg",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRA4B0Q9Q1msih1rId8mjzXUQLw-iwYGpWRQQ&s",
-    "https://thumbor.forbes.com/thumbor/fit-in/900x510/https://www.forbes.com/advisor/wp-content/uploads/2022/05/Business.jpeg.jpg"
-  ];
+  late final items = service.images;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -175,16 +173,16 @@ class _DetailScreenState extends State<DetailScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              const Flexible(
+                              Flexible(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     PrimaryTitleText(
-                                      "Pinnacle Advisors",
+                                      service.title,
                                       size: 20,
                                       weight: FontWeight.w600,
                                     ),
-                                    PrimaryText(
+                                    const PrimaryText(
                                       "Consultant",
                                       color: AppTheme.primaryColor1,
                                       size: 12,
@@ -206,10 +204,10 @@ class _DetailScreenState extends State<DetailScreen> {
                             ],
                           ),
                           gapH10,
-                          const PrimaryText(
-                            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.\n\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.\n\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
+                          PrimaryText(
+                            service.description,
                             size: 12,
-                            color: Color(0xFF949494),
+                            color: const Color(0xFF949494),
                           ),
                         ],
                       ),
