@@ -32,7 +32,7 @@ class _ContentWidgetState extends State<ContentWidget> {
   Widget build(BuildContext context) {
     return SizedBox(
       width: widget.width,
-      height: widget.height,
+      height: widget.height ?? 143,
       child: GradientImageWidget(
         onPressed: widget.onPressed,
         coverUrl: widget.coverUrl,

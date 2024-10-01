@@ -19,6 +19,7 @@ import 'package:concierge_networking/screens/main/chat/chat_screen.dart';
 import 'package:concierge_networking/screens/main/components/content_widget.dart';
 import 'package:concierge_networking/screens/main/components/gradient_image_widget.dart';
 import 'package:concierge_networking/screens/main/components/home_heading_widget.dart';
+import 'package:concierge_networking/screens/main/home/category_screen.dart';
 import 'package:concierge_networking/screens/main/home/detail_screen.dart';
 import 'package:concierge_networking/screens/main/profile/profile_screen.dart';
 import 'package:concierge_networking/utils/constants/app_assets.dart';
@@ -217,7 +218,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         if (categories.isNotEmpty)
                           HomeHeadingWidget(
                             title: "Services Categories",
-                            onPressedAll: () {},
+                            onPressedAll: () {
+                              NavigationService.go(const CategoryScreen());
+                            },
                             child: GridView.builder(
                               physics: const NeverScrollableScrollPhysics(),
                               itemCount: categories.length,
@@ -311,13 +314,13 @@ class _HomeScreenState extends State<HomeScreen> {
                               scrollDirection: Axis.horizontal,
                               shrinkWrap: true,
                               itemBuilder: (_, index) {
-                                return Padding(
-                                  padding: const EdgeInsets.only(right: 12),
+                                return const Padding(
+                                  padding: EdgeInsets.only(right: 12),
                                   child: ContentWidget(
-                                    width: SCREEN_WIDTH * 0.61,
+                                    height: 203,
                                     coverUrl:
                                         "https://www.huntersure.com/wp-content/uploads/2020/06/Consultants.jpg",
-                                    child: const Column(
+                                    child: Column(
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
