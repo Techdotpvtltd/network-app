@@ -11,18 +11,5 @@ const FIREBASE_COLLECTION_WORKOUTS =
     "${kReleaseMode ? "Rel-" : "Dev-"}Workouts";
 
 const FIREBASE_COLLECTION_COURSE = "${kReleaseMode ? "Rel-" : "Dev-"}Course";
-
-const String FIREBASE_COLLECTION_CHAT =
-    "${kReleaseMode ? "Rel-" : "Dev-"}Chats";
-
-const FIREBASE_COLLECTION_MESSAGES =
-    "${kReleaseMode ? "Rel-" : "Dev-"}Messages";
-
-const FIREBASE_COLLECTION_ARTICLES =
-    "${kReleaseMode ? "Rel-" : "Dev-"}Articles";
-
-const FIREBASE_COLLECTION_LOG_WORKOUTS =
-    "${kReleaseMode ? "Rel-" : "Dev-"}Log-Workouts";
-
-const FIREBASE_COLLECTION_LOG_EXERCISES =
-    "${kReleaseMode ? "Rel-" : "Dev-"}Log-Exercises";
+const FIREBASE_COLLECTION_CATEGORIES =
+    "${kReleaseMode ? "Rel-" : "Dev-"}Categories";
