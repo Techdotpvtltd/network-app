@@ -20,7 +20,6 @@ import 'package:concierge_networking/screens/main/components/content_widget.dart
 import 'package:concierge_networking/screens/main/components/gradient_image_widget.dart';
 import 'package:concierge_networking/screens/main/components/home_heading_widget.dart';
 import 'package:concierge_networking/screens/main/home/category_screen.dart';
-import 'package:concierge_networking/screens/main/home/detail_screen.dart';
 import 'package:concierge_networking/screens/main/profile/profile_screen.dart';
 import 'package:concierge_networking/utils/constants/app_assets.dart';
 import 'package:concierge_networking/utils/constants/constants.dart';

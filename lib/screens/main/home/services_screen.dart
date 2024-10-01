@@ -94,8 +94,9 @@ class _ServicesScreenState extends State<ServicesScreen> {
                                 child: ContentWidget(
                                   height: 160,
                                   onPressed: () {
-                                    NavigationService.go(
-                                        DetailScreen(service: service));
+                                    NavigationService.go(DetailScreen(
+                                        service: service,
+                                        category: widget.category));
                                   },
                                   coverUrl: service.images.first,
                                   child: Column(

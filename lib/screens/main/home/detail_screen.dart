@@ -10,11 +10,13 @@ import 'package:concierge_networking/components/custom_app_bar.dart';
 import 'package:concierge_networking/components/custom_container.dart';
 import 'package:concierge_networking/components/custom_ink_well.dart';
 import 'package:concierge_networking/components/text_widget.dart';
+import 'package:concierge_networking/models/category_model.dart';
 import 'package:concierge_networking/models/service_model.dart';
 import 'package:concierge_networking/screens/main/chat/chat_screen.dart';
 import 'package:concierge_networking/utils/constants/app_assets.dart';
 import 'package:concierge_networking/utils/constants/constants.dart';
 import 'package:concierge_networking/utils/extensions/navigation_service.dart';
+import 'package:concierge_networking/utils/extensions/string_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -22,8 +24,10 @@ import '../../../components/custom_network_image.dart';
 import '../../../utils/constants/app_theme.dart';
 
 class DetailScreen extends StatefulWidget {
-  const DetailScreen({super.key, required this.service});
+  const DetailScreen(
+      {super.key, required this.service, required this.category});
   final ServiceModel service;
+  final CategoryModel category;
   @override
   State<DetailScreen> createState() => _DetailScreenState();
 }
@@ -182,8 +186,8 @@ class _DetailScreenState extends State<DetailScreen> {
                                       size: 20,
                                       weight: FontWeight.w600,
                                     ),
-                                    const PrimaryText(
-                                      "Consultant",
+                                    PrimaryText(
+                                      widget.category.title.firstCapitalize(),
                                       color: AppTheme.primaryColor1,
                                       size: 12,
                                       weight: FontWeight.w600,
