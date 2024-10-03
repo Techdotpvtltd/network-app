@@ -24,7 +24,7 @@ class PostRepo implements PostRepoInterface {
         collection: FIREBASE_COLLECTION_POSTS,
         queries: [
           QueryModel(field: "", value: 15, type: QueryType.limit),
-          QueryModel(field: "title", value: false, type: QueryType.orderBy),
+          QueryModel(field: "createdAt", value: false, type: QueryType.orderBy),
           if (PostCache().snapshot != null)
             QueryModel(
                 field: "",

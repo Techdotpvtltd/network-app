@@ -16,6 +16,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_floating_bottom_bar/flutter_floating_bottom_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../blocs/data_fetcher/data_fetcher_bloc.dart';
+import '../../../blocs/data_fetcher/data_fetcher_event.dart';
 import '../../../models/bottom_bar_item_model.dart';
 import '../../../utils/constants/app_assets.dart';
 import '../../../utils/constants/app_theme.dart';
@@ -58,9 +60,14 @@ class _BottomBarScreenState extends State<BottomBarScreen>
     ),
   ];
 
+  void triggerFetchDataEvent() {
+    context.read<DataFetcherBloc>().add(DataFetcherEventFetch());
+  }
+
   @override
   void initState() {
     tabController = TabController(length: items.length, vsync: this);
+    triggerFetchDataEvent();
     super.initState();
   }
 
@@ -153,29 +160,20 @@ class _BottomBarScreenState extends State<BottomBarScreen>
                         ),
                     ],
                   ),
-            body: (context, scrollController) {
-              if (selectedIndex == 0) {
-                return HomeScreen(scrollController: scrollController);
-              }
-
-              if (selectedIndex == 1) {
-                return BookingScreen(
+            body: (context, scrollController) => TabBarView(
+              controller: tabController,
+              children: [
+                HomeScreen(scrollController: scrollController),
+                BookingScreen(
                     scrollController: scrollController,
-                    isShowBackButton: false);
-              }
-
-              if (selectedIndex == 2) {
-                return ChatScreen(
-                    scrollController: scrollController, isCameFromBottom: true);
-              }
-
-              if (selectedIndex == 3) {
-                return ProfileScreen(
+                    isShowBackButton: false),
+                ChatScreen(
+                    scrollController: scrollController, isCameFromBottom: true),
+                ProfileScreen(
                     scrollController: scrollController,
-                    isShowBackButton: false);
-              }
-              return items[selectedIndex].child;
-            },
+                    isShowBackButton: false),
+              ],
+            ),
           ),
         ),
       ),

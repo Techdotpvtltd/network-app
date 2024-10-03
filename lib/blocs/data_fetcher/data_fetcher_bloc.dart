@@ -9,6 +9,7 @@ import 'package:concierge_networking/blocs/data_fetcher/data_fetcher_event.dart'
 import 'package:concierge_networking/blocs/data_fetcher/data_fetcher_state.dart';
 import 'package:concierge_networking/exceptions/app_exceptions.dart';
 import 'package:concierge_networking/repos/category/category_repo_impl.dart';
+import 'package:concierge_networking/repos/post/post_repo_implement.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DataFetcherBloc extends Bloc<DataFetcherEvent, DataFetcherState> {
@@ -21,6 +22,7 @@ class DataFetcherBloc extends Bloc<DataFetcherEvent, DataFetcherState> {
           await Future.wait(
             [
               CategoryRepo().fetchAll(), // Fetch All Category Data
+              PostRepo().fetch(),
             ],
           );
           emit(DataFetcherStateFetched());
