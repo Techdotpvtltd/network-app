@@ -14,3 +14,4 @@ const FIREBASE_COLLECTION_COURSE = "${kReleaseMode ? "Rel-" : "Dev-"}Course";
 const FIREBASE_COLLECTION_CATEGORIES =
     "${kReleaseMode ? "Rel-" : "Dev-"}Categories";
 const FIREBASE_COLLECTION_SERIES = "${kReleaseMode ? "Rel-" : "Dev-"}Series";
+const FIREBASE_COLLECTION_POSTS = "${kReleaseMode ? "Dev-" : "Dev-"}Posts";
