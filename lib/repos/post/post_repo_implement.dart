@@ -23,7 +23,7 @@ class PostRepo implements PostRepoInterface {
           await FirestoreService().fetchWithMultipleConditions(
         collection: FIREBASE_COLLECTION_POSTS,
         queries: [
-          QueryModel(field: "", value: 15, type: QueryType.limit),
+          QueryModel(field: "", value: 8, type: QueryType.limit),
           QueryModel(field: "createdAt", value: false, type: QueryType.orderBy),
           if (PostCache().snapshot != null)
             QueryModel(

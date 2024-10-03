@@ -21,6 +21,7 @@ import 'package:concierge_networking/screens/main/components/content_widget.dart
 import 'package:concierge_networking/screens/main/components/gradient_image_widget.dart';
 import 'package:concierge_networking/screens/main/components/home_heading_widget.dart';
 import 'package:concierge_networking/screens/main/home/category_screen.dart';
+import 'package:concierge_networking/screens/main/home/news_and_announcement_screen.dart';
 import 'package:concierge_networking/screens/main/profile/profile_screen.dart';
 import 'package:concierge_networking/utils/constants/app_assets.dart';
 import 'package:concierge_networking/utils/constants/constants.dart';
@@ -252,7 +253,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         if (categories.isNotEmpty) gapH22,
                         HomeHeadingWidget(
                           title: "Popular Service",
-                          onPressedAll: () {},
                           child: SizedBox(
                             width: SCREEN_WIDTH,
                             height: 190,
@@ -320,6 +320,9 @@ class _NewsAndAnnouncement extends StatelessWidget {
   Widget build(BuildContext context) {
     return HomeHeadingWidget(
       title: "News or Announcements",
+      onPressedAll: () {
+        NavigationService.go(const NewsAndAnnouncementsScreen());
+      },
       child: SizedBox(
         width: SCREEN_WIDTH,
         height: 141,

@@ -16,13 +16,15 @@ class ContentWidget extends StatefulWidget {
       required this.coverUrl,
       required this.child,
       this.onPressed,
-      this.padding});
+      this.contentPadding,
+      this.margin});
   final double? width;
   final double? height;
   final String coverUrl;
   final Widget child;
   final VoidCallback? onPressed;
-  final EdgeInsets? padding;
+  final EdgeInsets? contentPadding;
+  final EdgeInsets? margin;
   @override
   State<ContentWidget> createState() => _ContentWidgetState();
 }
@@ -30,16 +32,19 @@ class ContentWidget extends StatefulWidget {
 class _ContentWidgetState extends State<ContentWidget> {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: widget.width,
-      height: widget.height ?? 143,
-      child: GradientImageWidget(
-        onPressed: widget.onPressed,
-        coverUrl: widget.coverUrl,
-        child: Padding(
-          padding: widget.padding ??
-              const EdgeInsets.symmetric(horizontal: 12, vertical: 17),
-          child: widget.child,
+    return Padding(
+      padding: widget.margin ?? EdgeInsets.zero,
+      child: SizedBox(
+        width: widget.width,
+        height: widget.height ?? 143,
+        child: GradientImageWidget(
+          onPressed: widget.onPressed,
+          coverUrl: widget.coverUrl,
+          child: Padding(
+            padding: widget.contentPadding ??
+                const EdgeInsets.symmetric(horizontal: 12, vertical: 17),
+            child: widget.child,
+          ),
         ),
       ),
     );
