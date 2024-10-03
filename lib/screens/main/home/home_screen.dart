@@ -22,6 +22,7 @@ import 'package:concierge_networking/screens/main/components/gradient_image_widg
 import 'package:concierge_networking/screens/main/components/home_heading_widget.dart';
 import 'package:concierge_networking/screens/main/home/category_screen.dart';
 import 'package:concierge_networking/screens/main/home/news_and_announcement_screen.dart';
+import 'package:concierge_networking/screens/main/home/news_detail_screen.dart';
 import 'package:concierge_networking/screens/main/profile/profile_screen.dart';
 import 'package:concierge_networking/utils/constants/app_assets.dart';
 import 'package:concierge_networking/utils/constants/constants.dart';
@@ -316,6 +317,7 @@ class _HomeScreenState extends State<HomeScreen> {
 class _NewsAndAnnouncement extends StatelessWidget {
   const _NewsAndAnnouncement(this.posts);
   final List<PostModel> posts;
+
   @override
   Widget build(BuildContext context) {
     return HomeHeadingWidget(
@@ -337,6 +339,9 @@ class _NewsAndAnnouncement extends StatelessWidget {
               child: ContentWidget(
                 height: 203,
                 width: SCREEN_WIDTH * 0.8,
+                onPressed: () {
+                  NavigationService.go(NewsDetailScreen(post: post));
+                },
                 coverUrl: post.coverUrl,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,

@@ -18,7 +18,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../components/text_widget.dart';
 import '../../../utils/constants/constants.dart';
+import '../../../utils/extensions/navigation_service.dart';
 import '../components/content_widget.dart';
+import 'news_detail_screen.dart';
 
 class NewsAndAnnouncementsScreen extends StatefulWidget {
   const NewsAndAnnouncementsScreen({super.key});
@@ -77,6 +79,9 @@ class _NewsAndAnnouncementsScreenState
                     return ContentWidget(
                       height: 203,
                       margin: const EdgeInsets.symmetric(vertical: 6),
+                      onPressed: () {
+                        NavigationService.go(NewsDetailScreen(post: post));
+                      },
                       coverUrl: post.coverUrl,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.end,
