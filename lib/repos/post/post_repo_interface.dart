@@ -5,8 +5,6 @@
 // Date:        02-10-24 1:24:29 -- Wednesday
 // Description:
 
-import '../../models/post_model.dart';
-
 abstract class PostRepoInterface {
   Future<void> fetch();
 }

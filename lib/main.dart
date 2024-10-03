@@ -8,6 +8,7 @@
 import 'package:concierge_networking/blocs/auth/auth_bloc.dart';
 import 'package:concierge_networking/blocs/category/category_bloc.dart';
 import 'package:concierge_networking/blocs/data_fetcher/data_fetcher_bloc.dart';
+import 'package:concierge_networking/blocs/post/post_bloc.dart';
 import 'package:concierge_networking/blocs/service/service_bloc.dart';
 import 'package:concierge_networking/blocs/user/user_bloc.dart';
 import 'package:concierge_networking/manager/app_bloc_observer.dart';
@@ -39,6 +40,7 @@ class _App extends StatelessWidget {
         BlocProvider(create: (_) => CategoryBloc()),
         BlocProvider(create: (_) => DataFetcherBloc()),
         BlocProvider(create: (_) => ServiceBloc()),
+        BlocProvider(create: (_) => PostBloc()),
       ],
       child: MaterialApp(
         navigatorKey: navKey,
