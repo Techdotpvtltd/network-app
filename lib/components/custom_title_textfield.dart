@@ -364,9 +364,9 @@ class _CustomMessageTextFieldState extends State<CustomMessageTextField> {
 // ===========================Searh Text Field================================
 class SearchTextField extends StatefulWidget {
   const SearchTextField(
-      {super.key, this.backgroundColor, this.onSubmitted, this.hintText});
+      {super.key, this.backgroundColor, this.onChanged, this.hintText});
   final Color? backgroundColor;
-  final Function(String)? onSubmitted;
+  final Function(String)? onChanged;
   final String? hintText;
 
   @override
@@ -377,21 +377,23 @@ class _SearchTextFieldState extends State<SearchTextField> {
   late final FocusNode textFieldFocus;
   bool isFocused = false;
 
+  void focusListene() {
+    setState(() {
+      isFocused = textFieldFocus.hasFocus;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     textFieldFocus = FocusNode();
-    textFieldFocus.addListener(() {
-      setState(() {
-        isFocused = textFieldFocus.hasFocus;
-      });
-    });
+    textFieldFocus.addListener(focusListene);
   }
 
   @override
   void dispose() {
     super.dispose();
-    textFieldFocus.removeListener(() {});
+    textFieldFocus.removeListener(focusListene);
   }
 
   @override
@@ -399,10 +401,8 @@ class _SearchTextFieldState extends State<SearchTextField> {
     return TextField(
       canRequestFocus: true,
       focusNode: textFieldFocus,
-      controller: TextEditingController(),
       textInputAction: TextInputAction.search,
-      onSubmitted: widget.onSubmitted,
-      onChanged: (value) {},
+      onChanged: widget.onChanged,
       style: const TextStyle(
         color: AppTheme.titleColor1,
         fontWeight: FontWeight.w400,

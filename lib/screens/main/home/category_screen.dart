@@ -55,36 +55,46 @@ class _CategoryScreenState extends State<CategoryScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 18),
           child: Column(
             children: [
-              const SearchTextField(hintText: "Search Categories"),
+              SearchTextField(
+                hintText: "Search Categories",
+                onChanged: (p0) {
+                  categories = CategoryCache().search(p0);
+                  setState(() {});
+                },
+              ),
               Expanded(
-                child: ListView.builder(
-                  itemCount: categories.length,
-                  padding: const EdgeInsets.symmetric(vertical: 18),
-                  itemBuilder: (ctx, index) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 6),
-                      child: SizedBox(
-                        height: 160,
-                        child: GradientImageWidget(
-                          onPressed: () {
-                            NavigationService.go(
-                                ServicesScreen(category: categories[index]));
-                          },
-                          coverUrl: categories[index].cover,
-                          child: Center(
-                            child: PrimaryText(
-                              categories[index].title.firstCapitalize(),
-                              size: 16,
-                              weight: FontWeight.w700,
-                              color: Colors.white,
-                              maxLines: 2,
+                child: categories.isEmpty
+                    ? const Center(
+                        child: Text("No Category found"),
+                      )
+                    : ListView.builder(
+                        itemCount: categories.length,
+                        padding: const EdgeInsets.symmetric(vertical: 18),
+                        itemBuilder: (ctx, index) {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 6),
+                            child: SizedBox(
+                              height: 160,
+                              child: GradientImageWidget(
+                                onPressed: () {
+                                  NavigationService.go(ServicesScreen(
+                                      category: categories[index]));
+                                },
+                                coverUrl: categories[index].cover,
+                                child: Center(
+                                  child: PrimaryText(
+                                    categories[index].title.firstCapitalize(),
+                                    size: 16,
+                                    weight: FontWeight.w700,
+                                    color: Colors.white,
+                                    maxLines: 2,
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
+                          );
+                        },
                       ),
-                    );
-                  },
-                ),
               ),
             ],
           ),

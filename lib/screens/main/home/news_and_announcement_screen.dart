@@ -62,50 +62,57 @@ class _NewsAndAnnouncementsScreenState
           minimum: const EdgeInsets.only(left: 22, right: 22, top: 21),
           child: Column(
             children: [
-              const SearchTextField(
+              SearchTextField(
                 hintText: "Search News & Announcements",
+                onChanged: (p0) {
+                  posts = PostCache().postsBy(p0);
+                  setState(() {});
+                },
               ),
               gapH6,
               Expanded(
-                child: CustomListBuilder(
-                  itemCount: posts.length,
-                  shrinkWrap: true,
-                  padding: const EdgeInsets.only(top: 10, bottom: 20),
-                  onReachEnd: () {
-                    triggerFetchPostsEvent();
-                  },
-                  itemBuilder: (_, index) {
-                    final post = posts[index];
-                    return ContentWidget(
-                      height: 203,
-                      margin: const EdgeInsets.symmetric(vertical: 6),
-                      onPressed: () {
-                        NavigationService.go(NewsDetailScreen(post: post));
-                      },
-                      coverUrl: post.coverUrl,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          PrimaryText(
-                            post.title,
-                            size: 14,
-                            weight: FontWeight.w600,
-                            color: Colors.white,
-                            maxLines: 2,
-                          ),
-                          PrimaryText(
-                            post.description,
-                            size: 8,
-                            weight: FontWeight.w500,
-                            color: Colors.white,
-                            maxLines: 2,
-                          ),
-                        ],
+                child: posts.isEmpty
+                    ? const Center(child: Text("No Posts found"))
+                    : CustomListBuilder(
+                        itemCount: posts.length,
+                        shrinkWrap: true,
+                        padding: const EdgeInsets.only(top: 10, bottom: 20),
+                        onReachEnd: () {
+                          triggerFetchPostsEvent();
+                        },
+                        itemBuilder: (_, index) {
+                          final post = posts[index];
+                          return ContentWidget(
+                            height: 203,
+                            margin: const EdgeInsets.symmetric(vertical: 6),
+                            onPressed: () {
+                              NavigationService.go(
+                                  NewsDetailScreen(post: post));
+                            },
+                            coverUrl: post.coverUrl,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                PrimaryText(
+                                  post.title,
+                                  size: 14,
+                                  weight: FontWeight.w600,
+                                  color: Colors.white,
+                                  maxLines: 2,
+                                ),
+                                PrimaryText(
+                                  post.description,
+                                  size: 8,
+                                  weight: FontWeight.w500,
+                                  color: Colors.white,
+                                  maxLines: 2,
+                                ),
+                              ],
+                            ),
+                          );
+                        },
                       ),
-                    );
-                  },
-                ),
               ),
               if (isLoading) const CircularProgressIndicator(),
             ],

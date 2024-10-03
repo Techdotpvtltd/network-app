@@ -17,4 +17,10 @@ class CategoryCache {
   List<CategoryModel> _categories = [];
   set categories(List<CategoryModel> categories) => _categories = categories;
   List<CategoryModel> get categories => _categories;
+
+  List<CategoryModel> search(String withStr) => withStr == ""
+      ? _categories
+      : _categories
+          .where((e) => e.title.toLowerCase().contains(withStr.toLowerCase()))
+          .toList();
 }
